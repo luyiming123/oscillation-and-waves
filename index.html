@@ -1,0 +1,1747 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>第七章 振动和波动 — Yiming Lu（陆一鸣）· 兰州大学</title>
+
+  <!-- Local Offline Reveal.js 5 & KaTeX -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+
+  <style>
+    :root {
+      --navy: #183076;
+      --navy-top: #1f3c91;
+      --navy-dark: #11245b;
+      --blue: #2969b9;
+      --red: #c02d2d;
+      --red-top: #cf3636;
+      --teal: #12766e;
+      --teal-top: #178a81;
+      --soft-navy: #f4f6fa;
+      --soft-teal: #eef7f6;
+      --soft-red: #fdf2f2;
+      --text: #111827;
+    }
+
+    body {
+      background: #141821;
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .reveal {
+      color: var(--text);
+      font-size: 21px;
+    }
+
+    /* Pixel-faithful Beamer Madrid White Canvas */
+    .reveal .slides section {
+      background: #ffffff;
+      border-radius: 0;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+      padding: 18px 40px 38px 40px;
+      box-sizing: border-box;
+      text-align: left;
+      height: 100%;
+    }
+
+    /* Classic Madrid Title & Section Slides */
+    .reveal .slides section.title-slide,
+    .reveal .slides section.section-slide {
+      background: #ffffff;
+      color: var(--text);
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-bottom: 44px;
+    }
+
+    .madrid-titlebox {
+      background: linear-gradient(180deg, var(--navy-top) 0%, var(--navy) 100%);
+      color: #ffffff;
+      border-radius: 8px;
+      padding: 22px 54px;
+      width: 82%;
+      box-shadow: 0 4px 12px rgba(24, 48, 118, 0.22);
+      margin-bottom: 28px;
+    }
+
+    .madrid-titlebox h1,
+    .madrid-titlebox h2 {
+      color: #ffffff !important;
+      margin: 0 0 8px 0;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+
+    .madrid-meta {
+      color: #111827;
+      font-size: 0.96em;
+      line-height: 1.95;
+    }
+
+    /* Classic Madrid Full-Width Frame Title Bar */
+    .slide-header {
+      background: linear-gradient(180deg, var(--navy-top) 0%, var(--navy) 100%);
+      color: #ffffff;
+      margin: -18px -40px 18px -40px;
+      padding: 11px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(17, 36, 91, 0.18);
+    }
+
+    .slide-header h2 {
+      margin: 0;
+      font-size: 1.18em;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: 0.2px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .grid-2-eq {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .grid-2-rev {
+      display: grid;
+      grid-template-columns: 0.94fr 1.06fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    /* Authentic Beamer Madrid Blocks with Subtle Shading Seam (matching p3!) */
+    .card {
+      background: var(--soft-navy);
+      border-radius: 7px;
+      padding: 0 18px 13px 18px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+
+    .card.teal { background: var(--soft-teal); }
+    .card.red  { background: var(--soft-red); }
+
+    .card-title {
+      background: linear-gradient(180deg, var(--navy-top) 0%, var(--navy) 100%);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.93em;
+      margin: 0 -18px 10px -18px;
+      padding: 6px 18px;
+      border-radius: 7px 7px 0 0;
+      box-shadow: 0 2px 4px rgba(17, 36, 91, 0.16);
+    }
+
+    .card.teal .card-title {
+      background: linear-gradient(180deg, var(--teal-top) 0%, var(--teal) 100%);
+      box-shadow: 0 2px 4px rgba(18, 118, 110, 0.16);
+    }
+
+    .card.red .card-title {
+      background: linear-gradient(180deg, var(--red-top) 0%, var(--red) 100%);
+      box-shadow: 0 2px 4px rgba(192, 45, 45, 0.16);
+    }
+
+    .reveal ul, .reveal ol {
+      margin: 5px 0 4px 20px;
+      line-height: 1.54;
+      font-size: 0.88em;
+    }
+
+    .reveal ul li::marker { color: var(--navy); }
+    .card.teal ul li::marker { color: var(--teal); }
+    .card.red ul li::marker { color: var(--red); }
+    .reveal li { margin-bottom: 4px; }
+
+    .small-text { font-size: 0.84em; line-height: 1.52; }
+    .xs-text { font-size: 0.78em; line-height: 1.46; }
+    .alert-text { color: var(--red); font-weight: 700; }
+    .navy-text { color: var(--navy); font-weight: 700; }
+
+    /* Beamer \setbeamercovered{transparent=18} */
+    .reveal .slides section .fragment {
+      opacity: 0.18;
+      visibility: visible;
+      transition: opacity 0.22s ease;
+    }
+    .reveal .slides section .fragment.visible { opacity: 1; }
+
+    /* Clean Academic Diagram Container */
+    .fig-wrap {
+      text-align: center;
+      padding: 2px 0;
+    }
+
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: #ffffff;
+    }
+
+    .fig-caption {
+      font-size: 0.76em;
+      color: var(--navy);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .fig-sub {
+      font-size: 0.70em;
+      color: #334155;
+      margin-top: 2px;
+    }
+
+    /* Subtle Academic Controls */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 6px;
+      font-size: 0.68em;
+      color: #334155;
+    }
+
+    .controls button {
+      background: #eef2fb;
+      color: var(--navy);
+      border: 1px solid #c7d4ee;
+      border-radius: 4px;
+      padding: 3px 9px;
+      font-size: 0.95em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .controls button:hover { background: #dce6f9; }
+    .controls button.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .controls button.secondary { background: #e8f5f3; color: var(--teal); border-color: #b4ddd8; }
+    .controls button.secondary.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+
+    .controls input[type="range"] {
+      width: 100px;
+      accent-color: var(--navy);
+      cursor: pointer;
+    }
+
+    .katex-display {
+      margin: 0.42em 0 !important;
+      font-size: 0.95em;
+    }
+
+    video {
+      width: 100%;
+      max-height: 440px;
+      border-radius: 6px;
+      background: #000;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.16);
+    }
+
+    /* Authentic Madrid 3-Segment Footline */
+    .madrid-footline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 25px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      font-size: 12.5px;
+      line-height: 25px;
+      color: #ffffff;
+      z-index: 20;
+      pointer-events: none;
+    }
+    .madrid-footline .f-left  { background: var(--navy-dark); text-align: center; }
+    .madrid-footline .f-mid   { background: var(--blue); text-align: center; }
+    .madrid-footline .f-right { background: var(--navy); display: flex; justify-content: space-between; padding: 0 14px; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- 1. 封面（完全还原您的修改：Yiming Lu 陆一鸣 · 兰州大学 · November, 2026） -->
+      <section class="title-slide">
+        <div class="madrid-titlebox">
+          <h1 style="font-size:1.95em;">第七章 &nbsp; 振动和波动</h1>
+          <div style="font-size:0.96em; opacity:0.94;">知识复习与现实应用</div>
+        </div>
+        <div class="madrid-meta">
+          <div style="font-size:1.08em; font-weight:600; color:#111827;">Yiming Lu（陆一鸣）</div>
+          <div style="font-size:0.92em; color:#334155;">兰州大学</div>
+          <div style="font-size:0.88em; color:#475569; margin-top:10px;">November, 2026</div>
+        </div>
+      </section>
+
+      <!-- 2. 报告总体大纲（1:1 还原您的精简版） -->
+      <section>
+        <div class="slide-header"><h2>报告总体大纲</h2></div>
+        <div class="grid-2-eq" style="margin-top:26px;">
+          <div class="card">
+            <div class="card-title">第一部分：知识复习</div>
+            <ul style="font-size:0.95em; line-height:2.0; padding:6px 0;">
+              <li class="fragment"><b>复数法、能量辨析与叠加</b>（§7-1 ~ 7-2）</li>
+              <li class="fragment"><b>阻尼、受迫振动与共振</b>（§7-3）</li>
+              <li class="fragment"><b>一维波动方程与波的能量</b>（§7-6）</li>
+              <li class="fragment"><b>干涉、驻波与多普勒效应</b>（§7-7 ~ 7-8）</li>
+            </ul>
+          </div>
+          <div class="card teal">
+            <div class="card-title">第二部分：现实应用</div>
+            <ul style="font-size:0.95em; line-height:1.9; padding:6px 0;">
+              <li class="fragment"><b>精密机械与机器人工程</b>（呼应例题 p3）</li>
+              <li class="fragment"><b>建筑抗振、主动降噪与医疗传感</b></li>
+              <li class="fragment"><span class="alert-text">傅里叶本轮与“多圆画曲线”</span>
+                <ul style="font-size:0.88em; line-height:1.65;">
+                  <li>复数傅里叶级数推导与几何意义</li>
+                  <li>多圆逐阶逼近与旋转绘制动态演示</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 第一部分过渡页 -->
+      <section class="section-slide">
+        <div class="madrid-titlebox" style="width:76%; padding:24px 40px;">
+          <h2 style="font-size:1.7em; margin:0;">第一部分：知识复习</h2>
+        </div>
+      </section>
+
+      <!-- 4. §7-1 旋转矢量法、复数表示与简谐振动能量 -->
+      <section data-sim="phasor">
+        <div class="slide-header"><h2>§7-1 旋转矢量法、复数表示与简谐振动能量</h2></div>
+        <div class="grid-2">
+          <div>
+            <div class="card">
+              <div class="card-title">1. 旋转矢量法与复数解法</div>
+              <div class="small-text">
+                由 $\ddot{x}+\omega_0^2 x = 0$ 得 $x=A\cos(\omega_0 t+\varphi_0)$；利用欧拉公式 $e^{i\theta} = \cos\theta + i\sin\theta$，引入复位移：
+                $$z(t) = A e^{i(\omega_0 t + \varphi_0)} = \tilde{A} e^{i\omega_0 t}, \quad \tilde{A} = A e^{i\varphi_0}$$
+                实际位移 $x(t) = \operatorname{Re}[z(t)]$；求导即乘 $i\omega_0$：$\dot{z} = i\omega_0 z$，$\ddot{z} = -\omega_0^2 z$。
+              </div>
+            </div>
+            <div class="card fragment">
+              <div class="card-title">2. 简谐振动的能量守恒</div>
+              <div class="small-text">
+                $$\begin{aligned}
+                E_k(t) &= \tfrac{1}{2}mv^2 = \tfrac{1}{2}kA^2\sin^2(\omega_0 t + \varphi_0) \\
+                E_p(t) &= \tfrac{1}{2}kx^2 = \tfrac{1}{2}kA^2\cos^2(\omega_0 t + \varphi_0) \\
+                E &= E_k + E_p = \tfrac{1}{2}kA^2 = \tfrac{1}{2}m\omega_0^2 A^2 = \text{常量}
+                \end{aligned}$$
+                周期平均值：$\overline{E}_k = \overline{E}_p = \frac{1}{4}kA^2 = \frac{1}{2}E$。
+              </div>
+            </div>
+          </div>
+          <div class="fig-wrap">
+            <canvas id="canvas-phasor" data-w="450" data-h="395"></canvas>
+            <div class="fig-caption">图：旋转矢量投影与复平面表示（实时动画）</div>
+            <div class="controls">
+              <label>$\omega_0$: <input id="phasor-omega" type="range" min="0.4" max="3.5" step="0.1" value="1.3" /></label>
+              <button id="phasor-toggle">暂停</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. 思考与辨析 I -->
+      <section>
+        <div class="slide-header"><h2>【思考与辨析 I】为什么 $E_k = \frac{1}{2}mv^2$ 不能直接用复数法？</h2></div>
+        <div class="grid-2-eq">
+          <div class="card red">
+            <div class="card-title">1. 直接套用复数法的“翻车”现场</div>
+            <div class="small-text">
+              记 $\theta = \omega_0 t + \varphi_0$，复速度 $\dot{z} = i\omega_0 A e^{i\theta}$。<br/>
+              若像求位移那样“先在复数域平方，再取实部”：
+              $$\begin{aligned}
+              \operatorname{Re}\!\left[\tfrac{1}{2}m\dot{z}^2\right]
+              &= \operatorname{Re}\!\left[-\tfrac{1}{2}m\omega_0^2 A^2 e^{i2\theta}\right] \\
+              &= -\tfrac{1}{2}kA^2\cos(2\theta)
+              \end{aligned}$$
+              <ul>
+                <li><b>荒谬结论</b>：动能竟然在 $\left[-\frac{1}{2}kA^2,\, +\frac{1}{2}kA^2\right]$ 间周期性变号，出现了<span class="alert-text">负动能</span>！</li>
+                <li><b>真实动能</b>：$E_k = \frac{1}{2}kA^2\sin^2\theta = \frac{1}{4}kA^2(1 - \cos 2\theta) \ge 0$。</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="card fragment">
+              <div class="card-title">2. 本质原因：平方是非线性运算</div>
+              <div class="small-text">
+                设复数 $w = a + bi$，则：
+                $$\operatorname{Re}[w^2] = a^2 - b^2 \neq a^2 = (\operatorname{Re}[w])^2$$
+                直接平方取实部，<b>多减去了虚部的平方 $b^2$</b>！<br/>
+                一般地，对任意复数乘积：$\operatorname{Re}[w_1 w_2] \neq \operatorname{Re}[w_1]\operatorname{Re}[w_2]$。
+              </div>
+            </div>
+            <div class="card teal fragment">
+              <div class="card-title">3. 能量/功率的正确复数算法</div>
+              <ul class="small-text">
+                <li><b>瞬时动能</b>：必须<b>先取实部再平方</b> $E_k = \frac{1}{2}m(\operatorname{Re}\dot{z})^2$；</li>
+                <li><b>周期平均动能</b>：可用<b>复共轭</b>一步算出：
+                  $$\overline{E}_k = \tfrac{1}{4}m\,\dot{z}\dot{z}^* = \tfrac{1}{4}m|\dot{z}|^2 = \tfrac{1}{4}kA^2$$
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. 思考与辨析 II（1:1 保留您的修改：无口诀框） -->
+      <section>
+        <div class="slide-header"><h2>【思考与辨析 II】那为什么求导与解方程可以用复数法？</h2></div>
+        <div class="grid-2-eq">
+          <div class="card">
+            <div class="card-title">1. 只用实微积分证明 $\frac{\mathrm{d}}{\mathrm{d}t}e^{i\omega_0 t} = i\omega_0 e^{i\omega_0 t}$</div>
+            <div class="small-text">
+              自变量 $t$ 为实数，复函数求导即<b>实部、虚部分别求导</b>。将 $e^{i\omega_0 t} = \cos\omega_0 t + i\sin\omega_0 t$ 展开求导：
+              $$\begin{aligned}
+              \frac{\mathrm{d}}{\mathrm{d}t}e^{i\omega_0 t}
+              &= -\omega_0\sin(\omega_0 t) + i\omega_0\cos(\omega_0 t) \\
+              &= i\omega_0\big[\cos(\omega_0 t) + i\sin(\omega_0 t)\big] \quad (i^2 = -1) \\
+              &= i\omega_0\,e^{i\omega_0 t}
+              \end{aligned}$$
+              <b>几何直觉</b>：速度比位置超前 $90^\circ$，而复平面上<b>乘以 $i$ 恰好就是逆时针旋转 $90^\circ$</b>！
+            </div>
+          </div>
+          <div class="card teal fragment">
+            <div class="card-title">2. 合法性基石：线性运算与 $\operatorname{Re}[\cdot]$ 可交换</div>
+            <div class="small-text">
+              对于<b>加减、乘实常数、对实变量 $t$ 求导</b>等实线性运算：
+              <ul>
+                <li>$\operatorname{Re}[z_1 + z_2] = \operatorname{Re}[z_1] + \operatorname{Re}[z_2]$</li>
+                <li>$\operatorname{Re}[c\,z] = c\operatorname{Re}[z]\quad (c\in\mathbb{R})$</li>
+                <li>$\dfrac{\mathrm{d}}{\mathrm{d}t}\operatorname{Re}[z(t)] = \operatorname{Re}\!\left[\dfrac{\mathrm{d}z}{\mathrm{d}t}\right]$</li>
+              </ul>
+              故只要方程是<b>线性</b>的（简谐/阻尼/受迫振动、波的叠加），复解的实部必严格满足原实方程。
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. 【例题 1】题目与实时滚动模型（独立页） -->
+      <section data-sim="gear-p3">
+        <div class="slide-header"><h2>【例题 1】人形机器人关节模组齿轮传动模型</h2></div>
+        <div class="card">
+          <div class="card-title">题目</div>
+          <div class="small-text">
+            人形机器人关节模组中传动机构的简化模型：大齿轮固定，圆心为 $O$；小齿轮圆心为 $C$，始终紧贴大齿轮内壁匀速滚动；$P$ 为小齿轮边缘上的一点。<br/>
+            已知小齿轮的直径与大齿轮的半径相等（$R = 2r$）。判断：<br/>
+            <b>A.</b> $P$ 的速度方向指向 $O$； &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>B.</b> $P$ 的加速度方向指向 $C$；<br/>
+            <b>C.</b> $P$ 的周期是 $C$ 的两倍； &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>D.</b> $PO$ 越小，$P$ 的加速度越大。
+          </div>
+        </div>
+        <div class="grid-2-rev" style="margin-top:6px;">
+          <div class="fig-wrap">
+            <canvas id="canvas-gear-p3" data-w="370" data-h="295"></canvas>
+            <div class="controls">
+              <button id="gear-p3-toggle">暂停滚动</button>
+            </div>
+          </div>
+          <div class="card teal fragment">
+            <div class="card-title">核心物理切入点：旋转矢量合成</div>
+            <ul class="small-text" style="line-height:1.7;">
+              <li class="fragment">设 $t=0$ 时，小齿轮圆心在 $(r,0)$，点 $P$ 与内壁接触于 $(2r,0)$。</li>
+              <li class="fragment">小齿轮圆心 $C$ 绕 $O$ 以角速度 $\omega$ 公转，转角 $\theta = \omega t$。</li>
+              <li class="fragment">关键问题：<b>无滑滚动条件</b>下，小齿轮自转角速度 $\omega_s$ 与公转角速度 $\omega$ 满足什么定量关系？</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. 【例题 1】严格数理推导与选项深度辨析（独立页） -->
+      <section>
+        <div class="slide-header"><h2>【例题 1】严格数理推导与选项深度辨析</h2></div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">1. 无滑滚动约束与运动方程推导</div>
+            <div class="small-text">
+              在大齿轮外圆弧上纯滚动，弧长相等：
+              $$s = R\theta = 2r\theta = r\phi_{\text{相对}} \implies \phi_{\text{相对}} = 2\theta$$
+              内切滚动自转与公转反向，惯性系中绝对自转角 $\theta_s = \theta - 2\theta = -\theta = -\omega t$。复数合成 $P$ 点位置：
+              $$\begin{aligned}
+              z_P(t) &= z_C(t) + z_{CP}(t) = r e^{i\omega t} + r e^{-i\omega t} \\
+                     &= 2r\cos(\omega t) = R\cos(\omega t)
+              \end{aligned}$$
+              即 $\vec{r}_P(t) = \big(R\cos(\omega t),\, 0\big)$：<span class="alert-text">$P$ 沿过 $O$ 的固定直径做简谐振动！</span>（<b>图西双圆 / Tusi Couple</b>）
+            </div>
+          </div>
+          <div class="card red fragment">
+            <div class="card-title">2. 速度、加速度与四选项逐一剖析</div>
+            <div class="small-text">
+              由 $x_P = R\cos(\omega t)$ 得 $v_P = -R\omega\sin(\omega t)$，$\vec{a}_P = -\omega^2\vec{r}_P$：
+              <ul>
+                <li class="fragment"><b>A 项</b>：$P$ 沿直径往复直线运动，靠近 $O$ 时指向 $O$，远离 $O$ 时<b>背离 $O$</b>（仅直线恒过 $O$，矢量方向非恒指向 $O$）。</li>
+                <li class="fragment"><b>B 项（错）</b>：$\vec{a}_P = -\omega^2 \vec{r}_P$，加速度<b>恒指向 $O$</b>，而非 $C$。</li>
+                <li class="fragment"><b>C 项（错）</b>：$T_P = \frac{2\pi}{\omega} = T_C$，两者周期<b>相等</b>。</li>
+                <li class="fragment"><b>D 项（错）</b>：$|\vec{a}_P| = \omega^2\cdot PO$，$PO$ 越小加速度<b>越小</b>。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. 【例题 1 拓展】一般情形 R != 2r：内摆线（完整 3 幅并排同步实时滚动 Retina 动画！） -->
+      <section data-sim="hypo">
+        <div class="slide-header"><h2>【例题 1 拓展】一般情形 $R \neq 2r$：内摆线（Hypocycloid）</h2></div>
+        <div class="card" style="margin-bottom:10px;">
+          <div class="card-title">一般半径比 $k = R/r$ 的复数轨道方程</div>
+          <div class="small-text">
+            设大圆半径 $R$、小圆半径 $r$（$k = R/r$）。无滑滚动时，小圆绝对自转角 $\theta_s = \theta - \frac{R}{r}\theta = -(k-1)\theta$，故 $P$ 点轨迹为<b>内摆线</b>：
+            $$z_P(\theta) = (R - r)e^{i\theta} + r\,e^{-i(k-1)\theta} \qquad \big(\text{注：}k=2 \text{ 退化为直线简谐振动；一般情形即“两圆本轮”}\big)$$
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="fig-wrap fragment">
+            <canvas id="canvas-hypo-3" data-w="310" data-h="275"></canvas>
+            <div class="fig-caption">$R = 3r$（三尖瓣线）</div>
+            <div class="fig-sub">$z_P = r(2e^{i\theta} + e^{-2i\theta})$</div>
+          </div>
+          <div class="fig-wrap fragment">
+            <canvas id="canvas-hypo-4" data-w="310" data-h="275"></canvas>
+            <div class="fig-caption">$R = 4r$（星形线）</div>
+            <div class="fig-sub">$x^{2/3} + y^{2/3} = R^{2/3}$</div>
+          </div>
+          <div class="fig-wrap fragment">
+            <canvas id="canvas-hypo-5" data-w="310" data-h="275"></canvas>
+            <div class="fig-caption">$R = 5r$（五尖内摆线）</div>
+            <div class="fig-sub">非整数 $k=p/q$ 呈星形，$k\notin\mathbb{Q}$ 永不闭合</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. §7-2 简谐振动的叠加（同方向合成与拍现象） -->
+      <section data-sim="beats">
+        <div class="slide-header"><h2>§7-2 简谐振动的叠加：同方向合成与拍现象</h2></div>
+        <div class="grid-2-eq">
+          <div class="card">
+            <div class="card-title">1. 同方向、同频率简谐振动合成</div>
+            <div class="small-text">
+              设 $x_1 = A_1\cos(\omega t + \varphi_1)$，$x_2 = A_2\cos(\omega t + \varphi_2)$。<br/>
+              用复振幅合成 $\tilde{A} = \tilde{A}_1 + \tilde{A}_2 = A_1 e^{i\varphi_1} + A_2 e^{i\varphi_2}$：
+              $$A = \sqrt{A_1^2 + A_2^2 + 2A_1 A_2\cos(\varphi_2 - \varphi_1)}$$
+              $$\tan\varphi = \frac{A_1\sin\varphi_1 + A_2\sin\varphi_2}{A_1\cos\varphi_1 + A_2\cos\varphi_2}$$
+              <ul>
+                <li><b>同相加强</b>：$\Delta\varphi = 2k\pi \implies A = A_1 + A_2$</li>
+                <li><b>反相减弱</b>：$\Delta\varphi = (2k+1)\pi \implies A = |A_1 - A_2|$</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card fragment">
+            <div class="card-title">2. 同方向、相近频率合成：拍现象</div>
+            <div class="small-text">
+              设 $A_1 = A_2 = A$，$\omega_1 \approx \omega_2$，利用和差化积：
+              $$\begin{aligned}
+              x &= A\cos\omega_1 t + A\cos\omega_2 t \\
+                &= \underbrace{\left[2A\cos\!\left(\frac{\omega_1-\omega_2}{2}t\right)\right]}_{\text{缓变振幅（包络）}} \cos\!\left(\frac{\omega_1+\omega_2}{2}t\right)
+              \end{aligned}$$
+              振幅绝对值在一个包络周期内出现 2 次极大，故<b>拍频</b> $\nu_{\text{拍}} = |\nu_1 - \nu_2|$（乐器校音、外差检测基础）。
+            </div>
+          </div>
+        </div>
+        <div class="fig-wrap" style="margin-top:2px;">
+          <canvas id="canvas-beats" data-w="1120" data-h="125"></canvas>
+          <div class="controls" style="margin-top:2px;">
+            <label>实时拍现象演示 · 频差 $\Delta f$: <span id="beats-df-val">0.8</span> Hz <input id="beats-df" type="range" min="0.2" max="2.4" step="0.1" value="0.8" /></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. §7-3 阻尼振动、受迫振动与共振 -->
+      <section data-sim="resonance">
+        <div class="slide-header"><h2>§7-3 阻尼振动、受迫振动与共振</h2></div>
+        <div class="grid-2">
+          <div>
+            <div class="card">
+              <div class="card-title">1. 阻尼振动（线性阻力 $F_r = -\gamma\dot{x}$）</div>
+              <div class="small-text">
+                $\ddot{x} + 2\beta\dot{x} + \omega_0^2 x = 0\ (\beta = \frac{\gamma}{2m})$。<br/>
+                <b>欠阻尼</b>（$\beta < \omega_0$）：$x(t) = A_0 e^{-\beta t}\cos(\omega_d t + \varphi_0)$，$\omega_d = \sqrt{\omega_0^2 - \beta^2}$。（临界/过阻尼无往复振荡。）
+              </div>
+            </div>
+            <div class="card fragment">
+              <div class="card-title">2. 受迫振动稳态解与振幅共振</div>
+              <div class="small-text">
+                受驱动力 $F = F_0\cos\omega t$（$f_0 = F_0/m$）：
+                $$\ddot{x} + 2\beta\dot{x} + \omega_0^2 x = f_0\cos\omega t$$
+                复数法求稳态特解 $x = A\cos(\omega t + \varphi)$：
+                $$A(\omega) = \frac{f_0}{\sqrt{(\omega_0^2 - \omega^2)^2 + 4\beta^2\omega^2}}, \quad \tan\varphi = -\frac{2\beta\omega}{\omega_0^2 - \omega^2}$$
+                令 $\frac{\mathrm{d}A}{\mathrm{d}\omega}=0$ 得<b>位移共振频率</b>：$\omega_r = \sqrt{\omega_0^2 - 2\beta^2}$。
+              </div>
+            </div>
+          </div>
+          <div class="fig-wrap">
+            <canvas id="canvas-resonance" data-w="460" data-h="385"></canvas>
+            <div class="fig-caption">图：不同阻尼系数下的受迫振动共振曲线与实时振子</div>
+            <div class="controls">
+              <label>$\omega/\omega_0$: <span id="res-w-val">1.00</span> <input id="res-w" type="range" min="0.2" max="2.0" step="0.05" value="1.00" /></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12. §7-6 一维波动方程的微元法推导 -->
+      <section data-sim="wave-elem">
+        <div class="slide-header"><h2>§7-6 一维波动方程的微元法推导</h2></div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">微元受力与牛顿第二定律</div>
+            <div class="small-text">
+              考虑线密度为 $\mu$、张力为 $T$ 的均匀细弦上微元 $[x, x+\mathrm{d}x]$，质量 $\mathrm{d}m = \mu\mathrm{d}x$。<br/>
+              小振幅近似下，倾角 $\theta$ 很小，$\sin\theta \approx \tan\theta = \frac{\partial y}{\partial x}$：
+              $$\begin{aligned}
+              \mathrm{d}F_y &= T\sin\theta(x+\mathrm{d}x) - T\sin\theta(x) \\
+                            &\approx T\!\left(\left.\frac{\partial y}{\partial x}\right|_{x+\mathrm{d}x} - \left.\frac{\partial y}{\partial x}\right|_x\right) = T\frac{\partial^2 y}{\partial x^2}\,\mathrm{d}x
+              \end{aligned}$$
+              由 $\mathrm{d}F_y = \mathrm{d}m\,\frac{\partial^2 y}{\partial t^2} = \mu\mathrm{d}x\,\frac{\partial^2 y}{\partial t^2}$，导出<b>一维波动方程</b>：
+              $$\frac{\partial^2 y}{\partial t^2} = u^2 \frac{\partial^2 y}{\partial x^2}, \qquad u = \sqrt{\frac{T}{\mu}}$$
+            </div>
+          </div>
+          <div>
+            <div class="fig-wrap">
+              <canvas id="canvas-wave-elem" data-w="440" data-h="270"></canvas>
+            </div>
+            <div class="card teal fragment" style="margin-top:10px;">
+              <div class="card-title">达朗贝尔通解</div>
+              <div class="xs-text">任何形如 $y = f(x-ut) + g(x+ut)$ 的二阶可微函数均满足一维波动方程。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13. §7-6 波的能量、能流与能流密度 -->
+      <section>
+        <div class="slide-header"><h2>§7-6 波的能量、能流与能流密度</h2></div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">1. 弹性介质微元的动能与势能</div>
+            <div class="small-text">
+              对体积元 $\mathrm{d}V$（密度 $\rho$），简谐波 $y = A\cos(\omega t - kx)$：
+              $$\begin{aligned}
+              \mathrm{d}E_k &= \frac{1}{2}\rho\mathrm{d}V\!\left(\frac{\partial y}{\partial t}\right)^2 = \frac{1}{2}\rho\mathrm{d}V\,\omega^2 A^2\sin^2(\omega t - kx) \\
+              \mathrm{d}E_p &= \frac{1}{2}\rho u^2\mathrm{d}V\!\left(\frac{\partial y}{\partial x}\right)^2 = \frac{1}{2}\rho\mathrm{d}V\,\omega^2 A^2\sin^2(\omega t - kx)
+              \end{aligned}$$
+              <span class="alert-text">重要结论</span>：行波中微元的 $\mathrm{d}E_k = \mathrm{d}E_p$（<b>同相变化</b>），微元能量不守恒，而是不断向下游传递！
+            </div>
+          </div>
+          <div class="card fragment">
+            <div class="card-title">2. 能量密度与能流密度（波强）</div>
+            <ul class="small-text">
+              <li><b>瞬时能量密度</b>：
+                $$w = \frac{\mathrm{d}E_k+\mathrm{d}E_p}{\mathrm{d}V} = \rho\omega^2 A^2\sin^2(\omega t - kx)$$
+              </li>
+              <li><b>平均能量密度</b>：
+                $$\bar{w} = \frac{1}{2}\rho\omega^2 A^2$$
+              </li>
+              <li><b>平均能流密度（波强）</b>：
+                $$I = \bar{w}\,u = \frac{1}{2}\rho u\omega^2 A^2$$
+                其中 $Z = \rho u$ 称为介质的<b>特性声阻抗</b>。
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14. §7-7 波的干涉与驻波（含紧凑 3x Retina 驻波动画） -->
+      <section data-sim="standing">
+        <div class="slide-header"><h2>§7-7 波的干涉与驻波</h2></div>
+        <div class="grid-2-eq">
+          <div class="card">
+            <div class="card-title">1. 波的干涉（相干叠加）</div>
+            <div class="small-text">
+              <b>相干条件</b>：频率相同、振动方向相同、相位差恒定。<br/>
+              两波源到点 $P$ 的相位差：
+              $$\Delta\varphi = (\varphi_2 - \varphi_1) - \frac{2\pi}{\lambda}(r_2 - r_1)$$
+              <ul>
+                <li><b>干涉加强</b>：$\Delta\varphi = \pm 2k\pi$（同相源时 $\Delta r = k\lambda$）</li>
+                <li><b>干涉减弱</b>：$\Delta\varphi = \pm(2k+1)\pi$（同相源时 $\Delta r = (k+\frac{1}{2})\lambda$）</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card fragment">
+            <div class="card-title">2. 驻波方程与半波损失</div>
+            <div class="small-text">
+              两列等幅反向简谐波叠加：
+              $$y = A\cos(\omega t - kx) + A\cos(\omega t + kx) = \underbrace{\big[2A\cos(kx)\big]}_{\text{空间振幅分布}} \cos(\omega t)$$
+              <ul>
+                <li><b>波腹</b>：$|kx| = n\pi \implies x = n\frac{\lambda}{2}$；<b>波节</b>：$x = \big(n+\frac{1}{2}\big)\frac{\lambda}{2}$</li>
+                <li><b>半波损失</b>：波由波疏介质垂直入射波密介质反射时，反射波相位突变 $\pi$（等效波程差 $\lambda/2$）。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="fig-wrap" style="margin-top:2px;">
+          <canvas id="canvas-standing" data-w="1120" data-h="128"></canvas>
+          <div class="controls" style="margin-top:2px;">
+            <span>实时驻波演示 · 谐波阶数 $n$：</span>
+            <button class="stand-n" data-n="1">n=1</button>
+            <button class="stand-n" data-n="2">n=2</button>
+            <button class="stand-n active" data-n="3">n=3 (4个波节)</button>
+            <button class="stand-n" data-n="4">n=4</button>
+            <button class="stand-n" data-n="5">n=5</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 15. 【例题 2】两端固定弦线的驻波与本征频率 -->
+      <section>
+        <div class="slide-header"><h2>【例题 2】两端固定弦线的驻波与本征频率</h2></div>
+        <div class="card">
+          <div class="card-title">题目</div>
+          <div class="small-text">
+            一根长为 $L = 0.60\text{ m}$、线密度为 $\mu = 2.0\times 10^{-3}\text{ kg/m}$ 的琴弦两端固定，承受张力 $T = 72\text{ N}$。<br/>
+            (1) 推导弦上能形成的驻波波长 $\lambda_n$ 与本征频率 $f_n$； &nbsp;&nbsp; (2) 若弦上观察到 $4$ 个波节（含两端），求此时振动频率与波速。
+          </div>
+        </div>
+        <div class="card teal fragment">
+          <div class="card-title">数理推导与解答</div>
+          <ol class="small-text" style="line-height:1.7;">
+            <li class="fragment"><b>边界条件与波长量子化</b>：两端固定必为波节，相邻波节间距 $\frac{\lambda}{2}$，故弦长为半波长的整数倍：
+              $L = n\cdot\frac{\lambda_n}{2} \implies \lambda_n = \frac{2L}{n}\ (n = 1, 2, 3, \dots)$。
+            </li>
+            <li class="fragment"><b>波速与本征频率</b>：横波波速 $u = \sqrt{\frac{T}{\mu}} = \sqrt{\frac{72}{2.0\times 10^{-3}}} \approx 189.7\text{ m/s}$，本征频率：
+              $$f_n = \frac{u}{\lambda_n} = \frac{n}{2L}\sqrt{\frac{T}{\mu}} = n f_1 \qquad (\text{基频 } f_1 \approx 158.1\text{ Hz})$$
+            </li>
+            <li class="fragment"><b>$4$ 个波节情形</b>：含两端共 $4$ 个波节，弦被分为 $n = 4 - 1 = 3$ 段半波（第 3 谐波），故：
+              $f_3 = 3 f_1 = \frac{3\times 189.7}{2\times 0.60} \approx \mathbf{474.3\text{ Hz}}$。
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 16. §7-8 多普勒效应的理论推导 -->
+      <section>
+        <div class="slide-header"><h2>§7-8 多普勒效应的理论推导</h2></div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">1. 相对运动下的波长与频率变换</div>
+            <div class="small-text">
+              设介质静止，波速为 $u$，波源固有频率为 $f$：
+              <ul>
+                <li><b>波源以 $v_S$ 运动</b>：在一个周期 $T=1/f$ 内，波前前进 $uT$，波源移动 $v_S T$，有效波长被压缩（靠近）或拉伸（远离）：
+                  $$\lambda' = \frac{u \mp v_S}{f}$$
+                </li>
+                <li><b>观察者以 $v_O$ 运动</b>：波前相对观察者的速度变为 $u \pm v_O$，单位时间接收到的完整波数即观测频率：
+                  $$f' = \frac{u \pm v_O}{\lambda'} = \frac{u \pm v_O}{u \mp v_S}\, f$$
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card teal fragment">
+            <div class="card-title">2. 符号判定法则与声波分类（§7-9）</div>
+            <ul class="small-text">
+              <li><b>符号法则</b>：
+                <ul>
+                  <li>观察者向波源运动：分子取 $+$；</li>
+                  <li>波源向观察者运动：分母取 $-$；</li>
+                  <li>简记：<b>“靠近使 $f'$ 变大，远离使 $f'$ 变小”</b>。</li>
+                </ul>
+              </li>
+              <li><b>声波频段（§7-9）</b>：
+                <ul>
+                  <li>次声波：$< 20\text{ Hz}$（地震/海啸监测）</li>
+                  <li>可听声：$20\text{ Hz} \sim 20\text{ kHz}$</li>
+                  <li>超声波：$> 20\text{ kHz}$（医学成像/测速）</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 17. 【例题 3】多普勒效应在超声测速中的综合应用 -->
+      <section>
+        <div class="slide-header"><h2>【例题 3】多普勒效应在超声测速中的综合应用</h2></div>
+        <div class="card">
+          <div class="card-title">题目</div>
+          <div class="small-text">
+            路旁一静止的超声波测速仪发射频率为 $f_0 = 40.0\text{ kHz}$ 的超声波，一辆汽车以速度 $v = 20\text{ m/s}$ 沿直线迎面驶向测速仪（空气声速 $u = 340\text{ m/s}$）。<br/>
+            求：(1) 测速仪接收到经汽车反射回来的超声波频率 $f''$； &nbsp;&nbsp; (2) 反射波与发射波叠加产生的拍频 $\Delta f$。
+          </div>
+        </div>
+        <div class="card teal fragment">
+          <div class="card-title">两步法严谨推导</div>
+          <ol class="small-text" style="line-height:1.65;">
+            <li class="fragment"><b>第一步（发射器 $\to$ 汽车）</b>：发射器静止（$v_S=0$），汽车为迎面观察者（$v_O = v$）：$f' = \frac{u + v}{u}\,f_0$。</li>
+            <li class="fragment"><b>第二步（汽车反射 $\to$ 发射器）</b>：汽车作为迎面二次波源（$v_S = v$，频率 $f'$），测速仪静止：
+              $$f'' = \frac{u}{u - v}\,f' = \frac{u + v}{u - v}\,f_0 = \frac{340 + 20}{340 - 20} \times 40.0\text{ kHz} = \mathbf{45.0\text{ kHz}}$$
+            </li>
+            <li class="fragment"><b>拍频计算</b>：反射波与原发射波混频，测得拍频即可直接反演车速：
+              $$\Delta f = f'' - f_0 = \frac{2v}{u - v}\,f_0 = \mathbf{5.0\text{ kHz}} \qquad \left(v \ll u \text{ 时近似 } \Delta f \approx \frac{2v}{u}f_0\right)$$
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 18. 第二部分过渡页 -->
+      <section class="section-slide">
+        <div class="madrid-titlebox">
+          <h2 style="font-size:1.65em;">第二部分：现实生活应用与跨学科交叉</h2>
+          <div style="font-size:0.92em; opacity:0.94;">从工程抗振、声学传感到傅里叶本轮“多圆绘万物”</div>
+        </div>
+      </section>
+
+      <!-- 19. 现实应用（一）：精密机械与人形机器人传动 -->
+      <section>
+        <div class="slide-header"><h2>现实应用（一）：精密机械与人形机器人传动</h2></div>
+        <div class="grid-2-eq" style="margin-top:10px;">
+          <div class="card">
+            <div class="card-title">1. 图西双圆 / Cardan 机构（例题 p3 延展）</div>
+            <ul class="small-text" style="line-height:1.75;">
+              <li><b>物理原理</b>：$R=2r$ 内啮合齿轮将匀速圆周运动精确转化为纯直线简谐运动 $x = R\cos(\omega t)$。</li>
+              <li><b>工程优势</b>：相比传统曲柄滑块机构，<b>消除侧向分力与高次谐波冲击</b>，大幅降低磨损与振动噪声。</li>
+              <li><b>应用场景</b>：微型无油往复压缩机、斯特林发动机传动、精密光学扫描平台。</li>
+            </ul>
+          </div>
+          <div class="card teal fragment">
+            <div class="card-title">2. 人形机器人关节抑振与阻抗控制</div>
+            <ul class="small-text" style="line-height:1.75;">
+              <li><b>谐波减速器与柔性关节</b>：电机-减速器-连杆可建模为阻尼受迫振子 $\ddot{\theta} + 2\zeta\omega_n\dot{\theta} + \omega_n^2\theta = \tau/I$。</li>
+              <li><b>阻抗控制（Impedance Control）</b>：软件实时调节等效刚度 $k$ 与阻尼 $\gamma$，使阻尼比 $\zeta \approx 0.707$（最佳阻尼），既快速响应又避免落地冲击引发剧烈振荡。</li>
+              <li><b>规避结构共振</b>：步态规划避开机械臂/腿部固有频率 $\omega_n$。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 20. 现实应用（二）：建筑抗振、声学降噪与医疗传感 -->
+      <section>
+        <div class="slide-header"><h2>现实应用（二）：建筑抗振、声学降噪与医疗传感</h2></div>
+        <div class="grid-3" style="margin-top:10px;">
+          <div class="card">
+            <div class="card-title">建筑与桥梁抗振（§7-3）</div>
+            <ul class="small-text" style="line-height:1.7;">
+              <li><b>台北 101 调谐质量阻尼器（TMD）</b>：660 吨钢球作为次级振子，固有频率与大楼匹配，通过<b>反相受迫振动</b>耗散风致能量。</li>
+              <li><b>塔科马海峡大桥（1940）</b>：卡门涡街脱落频率与桥体扭转固有频率耦合导致剧烈自激共振坍塌。</li>
+            </ul>
+          </div>
+          <div class="card teal fragment">
+            <div class="card-title">主动降噪耳机 ANC（§7-7）</div>
+            <ul class="small-text" style="line-height:1.7;">
+              <li><b>相消干涉原理</b>：外部麦克风采集低频噪声 $y_1 = A\cos(\omega t + \varphi)$。</li>
+              <li>DSP 芯片实时生成等幅反相声波 $y_2 = A\cos(\omega t + \varphi + \pi)$。</li>
+              <li>耳道内叠加 $y_1 + y_2 = 0$，实现低频环境噪声精准抵消。</li>
+            </ul>
+          </div>
+          <div class="card red fragment">
+            <div class="card-title">医学多普勒超声（§7-8~7-9）</div>
+            <ul class="small-text" style="line-height:1.7;">
+              <li>探头发射 $2\sim 10\text{ MHz}$ 超声波，经流动红细胞散射产生多普勒频移：
+                $$\Delta f = \frac{2v\cos\theta}{u}\,f_0$$
+              </li>
+              <li>实时无创测量血流速度与方向（红迎蓝离），用于心脏瓣膜与血管狭窄诊断。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 21. 跨学科专题引入：原生高清视频播放 -->
+      <section>
+        <div class="slide-header"><h2>跨学科专题引入：多个旋转圆能画出“万物”吗？</h2></div>
+        <div class="grid-2" style="grid-template-columns: 1.85fr 1fr; align-items:center;">
+          <div>
+            <video src="fourier_frog.mp4" controls loop playsinline></video>
+          </div>
+          <div class="card">
+            <div class="card-title">思考与引入</div>
+            <ul class="small-text" style="line-height:1.8;">
+              <li class="fragment">在<b>例题 1</b> 中，我们看到<b>2 个旋转圆</b>可以合成直线（简谐振动）与内摆线；</li>
+              <li class="fragment">如左图所示：把<b>几十、上百个不同半径与转速的圆</b>首尾相连，竟能精准画出复杂的卡通轮廓！</li>
+              <li class="fragment"><span class="alert-text">核心问题</span>：这背后藏着什么数学原理？如何算出每个圆的半径与转速？</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 22. 跨学科专题（一）：从旋转矢量到“多圆画任意曲线” -->
+      <section>
+        <div class="slide-header"><h2>跨学科专题（一）：从旋转矢量到“多圆画任意曲线”</h2></div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">1. 思想跃迁：从例题 p3 到傅里叶本轮（Epicycles）</div>
+            <ul class="small-text" style="line-height:1.7;">
+              <li class="fragment"><b>1 个圆</b>：$z(t) = c_1 e^{i\omega_0 t}$ $\longrightarrow$ 匀速圆周运动；</li>
+              <li class="fragment"><b>2 个圆（例题 p3 图西双圆）</b>：$z(t) = r e^{i\omega_0 t} + r e^{-i\omega_0 t}$ $\longrightarrow$ 直线简谐振动；</li>
+              <li class="fragment"><b>$2N+1$ 个圆首尾相连</b>：将复平面上任意周期封闭曲线 $z(t) = x(t) + i y(t)$ 展开为<b>复数傅里叶级数</b>：
+                $$z(t) = \sum_{n=-N}^{N} c_n\, e^{i n \omega_0 t}, \qquad \omega_0 = \frac{2\pi}{T}$$
+              </li>
+            </ul>
+          </div>
+          <div class="card teal fragment">
+            <div class="card-title">2. 系数 $c_n$ 的正交性推导与几何意义</div>
+            <div class="small-text">
+              利用复指数基函数的<b>正交性</b>：
+              $$\frac{1}{T}\int_0^T e^{i(m-n)\omega_0 t}\,\mathrm{d}t = \delta_{mn} = \begin{cases} 1, & m=n \\ 0, & m\neq n \end{cases}$$
+              两边同乘 $e^{-i k \omega_0 t}$ 并在 $[0,T]$ 积分，导出：
+              $$c_k = \frac{1}{T}\int_0^T z(t)\,e^{-i k \omega_0 t}\,\mathrm{d}t = |c_k|\,e^{i\varphi_k}$$
+              <b>每个 $c_k e^{ik\omega_0 t}$ 都是一个旋转圆</b>：
+              <ul>
+                <li>半径 $R_k = |c_k|$，初始相位 $\varphi_k = \arg(c_k)$；</li>
+                <li>转速 $k\omega_0$（$k>0$ 逆时针，$k<0$ 顺时针）。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 23. 跨学科专题（二）：多圆逐阶逼近封闭正方形（3x Retina 实时动画） -->
+      <section data-sim="sq-approx">
+        <div class="slide-header"><h2>跨学科专题（二）：多圆逐阶逼近封闭正方形</h2></div>
+        <div class="grid-2-rev">
+          <div class="fig-wrap">
+            <canvas id="canvas-sq-approx" data-w="470" data-h="400"></canvas>
+            <div class="controls">
+              <button class="sq-btn" data-m="1">1 个圆 (n=1)</button>
+              <button class="sq-btn" data-m="2">2 个圆 (1,-3)</button>
+              <button class="sq-btn" data-m="3">3 个圆 (1,-3,5)</button>
+              <button class="sq-btn active" data-m="4">4 个圆 (1,-3,5,-7)</button>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-title">正方形的复数傅里叶展开式</div>
+              <div class="small-text">
+                对顶点在 $(\pm 1, \pm 1)$ 的正方形沿周长匀速参数化，由对称性仅保留 $n \equiv 1 \pmod 4$ 的谐波分量：
+                $$z(t) = c_1\!\left(e^{it} - \frac{1}{9}e^{-3it} - \frac{1}{25}e^{5it} + \frac{1}{49}e^{-7it} + \cdots\right)$$
+                其中主圆半径 $c_1 = \frac{8\sqrt{2}}{\pi^2} \approx 1.146$，高阶圆半径按 $\mathbf{1/n^2}$ 快速衰减。
+              </div>
+            </div>
+            <div class="card teal">
+              <div class="card-title">直观规律</div>
+              <ul class="small-text" style="line-height:1.65;">
+                <li><b>低频大圆</b>决定图形的整体轮廓；</li>
+                <li><b>高频小圆</b>负责雕琢尖角与细节（如直角拐点）；</li>
+                <li>只要圆的数量足够多，任何封闭曲线（汉字、人像轮廓等）都能被精准合成！</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 24. 跨学科专题（三）：旋转本轮动态绘迹与 FFT 算法（3x Retina + 自由手绘） -->
+      <section data-sim="fourier">
+        <div class="slide-header"><h2>跨学科专题（三）：旋转本轮动态绘迹与 FFT 算法</h2></div>
+        <div class="grid-2-rev">
+          <div class="fig-wrap">
+            <canvas id="canvas-fourier" data-w="470" data-h="390" style="cursor:crosshair; touch-action:none; user-select:none; border:1px dashed #cbd5e1; border-radius:6px;"></canvas>
+            <div class="controls">
+              <button class="fourier-preset active" data-shape="square">正方形</button>
+              <button class="fourier-preset" data-shape="heart">心形</button>
+              <button class="fourier-preset" data-shape="star">五角星</button>
+              <button id="fourier-draw-btn" class="secondary">自由手绘</button>
+              <label>圆数 $N$=<span id="fourier-n-val">12</span> <input id="fourier-n" type="range" min="1" max="50" step="1" value="12" style="width:76px;" /></label>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-title">计算机如何自动算出所有“圆”？—— FFT</div>
+              <div class="small-text">
+                曲线采样为 $N$ 个离散复数点 $z[0],\dots,z[N-1]$，由<b>离散傅里叶变换（DFT）</b>求各圆参数：
+                $$c_k = \frac{1}{N}\sum_{n=0}^{N-1} z[n]\,e^{-i\frac{2\pi}{N}kn}$$
+                借助<b>快速傅里叶变换（FFT）</b>，复杂度由 $O(N^2)$ 降至 <span class="alert-text">$O(N\log N)$</span>，毫秒级即可分解出成千上万个旋转圆。
+              </div>
+            </div>
+            <div class="card teal">
+              <div class="card-title">核心工程与 CS 应用</div>
+              <ul class="small-text" style="line-height:1.65;">
+                <li><b>信号与音频压缩</b>：MP3 / AAC / JPEG 仅保留幅值最大的少量“主圆”即可高保真还原。</li>
+                <li><b>现代通信与语音</b>：5G OFDM 正交多载波调制、语音识别语谱图（STFT）分析。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 25. 致谢页 -->
+      <section class="title-slide">
+        <div class="madrid-titlebox" style="width:72%; padding:28px 40px;">
+          <h1 style="font-size:1.95em;">感谢聆听！</h1>
+          <div style="font-size:0.96em; opacity:0.94;">欢迎各位老师和同学提问与交流</div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Local Offline Reveal.js & KaTeX Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+
+  <script>
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false }
+      ],
+      throwOnError: false
+    });
+
+    Reveal.initialize({
+      width: 1280,
+      height: 720,
+      margin: 0.02,
+      hash: true,
+      slideNumber: false,
+      transition: 'none',
+      center: false,
+      controls: true,
+      progress: false
+    });
+
+    // Authentic Beamer Madrid 3-Segment Footline with user's exact metadata
+    (function injectMadridFootlines() {
+      const slides = document.querySelectorAll('.reveal .slides > section');
+      const total = slides.length;
+      slides.forEach((sec, idx) => {
+        const foot = document.createElement('div');
+        foot.className = 'madrid-footline';
+        foot.innerHTML =
+          `<div class="f-left">Yiming Lu（陆一鸣） (兰州大学)</div>` +
+          `<div class="f-mid">第七章 振动和波动</div>` +
+          `<div class="f-right"><span>November, 2026</span><span>${idx + 1} / ${total}</span></div>`;
+        sec.appendChild(foot);
+      });
+    })();
+
+    // =========================================================
+    // 3x Retina HiDPI Canvas Setup & Crisp Vector Arrow Helper
+    // =========================================================
+    const DPR = Math.max(window.devicePixelRatio || 1, 3);
+
+    function initHiDPI(id) {
+      const canvas = document.getElementById(id);
+      const W = parseInt(canvas.dataset.w, 10);
+      const H = parseInt(canvas.dataset.h, 10);
+      canvas.width = Math.round(W * DPR);
+      canvas.height = Math.round(H * DPR);
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      return { canvas, ctx, W, H };
+    }
+
+    function drawArrow(ctx, x1, y1, x2, y2, color, lw = 2, headLen = 8) {
+      const ang = Math.atan2(y2 - y1, x2 - x1);
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.lineWidth = lw;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 - headLen * Math.cos(ang - 0.36), y2 - headLen * Math.sin(ang - 0.36));
+      ctx.lineTo(x2 - headLen * Math.cos(ang + 0.36), y2 - headLen * Math.sin(ang + 0.36));
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function isSimActive(name) {
+      const cur = Reveal.getCurrentSlide();
+      return cur && cur.getAttribute('data-sim') === name;
+    }
+
+    // =========================================================
+    // SIM 1: Phasor Projection (Slide 4)
+    // =========================================================
+    (function () {
+      const { ctx, W, H } = initHiDPI('canvas-phasor');
+      const omegaSl = document.getElementById('phasor-omega');
+      const btn = document.getElementById('phasor-toggle');
+      let running = true, theta = 0.85;
+      btn.onclick = () => { running = !running; btn.textContent = running ? '暂停' : '继续'; };
+
+      function draw() {
+        requestAnimationFrame(draw);
+        if (!isSimActive('phasor')) return;
+        if (running) theta += 0.016 * parseFloat(omegaSl.value);
+        ctx.clearRect(0, 0, W, H);
+
+        const cx = 195, cy = 195, R = 128;
+        drawArrow(ctx, cx - R - 34, cy, cx + R + 44, cy, '#64748b', 1.4, 7);
+        drawArrow(ctx, cx, cy + R + 32, cx, cy - R - 34, '#64748b', 1.4, 7);
+        ctx.fillStyle = '#111827'; ctx.font = 'italic 15px "KaTeX_Math", Georgia, serif';
+        ctx.fillText('x (Re)', cx + R + 48, cy + 5);
+        ctx.fillText('y (Im)', cx - 18, cy - R - 42);
+
+        // Reference circle
+        ctx.strokeStyle = '#2969b9'; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+        ctx.setLineDash([]);
+
+        const px = cx + R * Math.cos(theta);
+        const py = cy - R * Math.sin(theta);
+
+        // Angle arc
+        const normTheta = ((theta % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+        ctx.strokeStyle = '#12766e'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(cx, cy, 38, 0, -normTheta, true); ctx.stroke();
+
+        // Projection dashed & red x(t)
+        ctx.strokeStyle = '#c02d2d'; ctx.setLineDash([4, 4]); ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px, cy); ctx.stroke();
+        ctx.setLineDash([]);
+        drawArrow(ctx, cx, cy, px, cy, '#c02d2d', 3.0, 9);
+
+        // Rotating vector A(z)
+        drawArrow(ctx, cx, cy, px, py, '#183076', 2.8, 9);
+        ctx.fillStyle = '#183076'; ctx.font = 'italic bold 15px "KaTeX_Math", Georgia, serif';
+        ctx.fillText('A (z)', px + 8, py - 8);
+        ctx.fillStyle = '#c02d2d'; ctx.font = 'italic 14px "KaTeX_Math", Georgia, serif';
+        ctx.fillText('x = A cosθ', px - 28, cy + 22);
+      }
+      draw();
+    })();
+
+    // =========================================================
+    // SIM 2: Example 1 (p3) R = 2r Tusi Couple Rolling Gear (Slide 7)
+    // =========================================================
+    (function () {
+      const { ctx, W, H } = initHiDPI('canvas-gear-p3');
+      const btn = document.getElementById('gear-p3-toggle');
+      let running = true, theta = 0.65;
+      btn.onclick = () => { running = !running; btn.textContent = running ? '暂停滚动' : '继续滚动'; };
+
+      function draw() {
+        requestAnimationFrame(draw);
+        if (!isSimActive('gear-p3')) return;
+        if (running) theta += 0.017;
+        ctx.clearRect(0, 0, W, H);
+
+        const cx = W / 2, cy = H / 2, R = 122, r = R / 2;
+        ctx.strokeStyle = '#183076'; ctx.lineWidth = 2.6;
+        ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+
+        // Diameter dashed trajectory
+        ctx.strokeStyle = '#c02d2d'; ctx.setLineDash([6, 4]); ctx.lineWidth = 1.8;
+        ctx.beginPath(); ctx.moveTo(cx - R, cy); ctx.lineTo(cx + R, cy); ctx.stroke();
+        ctx.setLineDash([]);
+
+        const gx = cx + r * Math.cos(theta), gy = cy - r * Math.sin(theta);
+        const qx = cx + R * Math.cos(theta), qy = cy - R * Math.sin(theta);
+        const px = cx + R * Math.cos(theta), py = cy;
+
+        // Inner rolling gear + spokes
+        ctx.fillStyle = 'rgba(41, 105, 185, 0.11)';
+        ctx.strokeStyle = '#2969b9'; ctx.lineWidth = 2.0;
+        ctx.beginPath(); ctx.arc(gx, gy, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(41, 105, 185, 0.30)'; ctx.lineWidth = 1.0;
+        for (let s = 0; s < 6; s++) {
+          const a = -theta + (s * Math.PI) / 3;
+          ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx + r * Math.cos(a), gy - r * Math.sin(a)); ctx.stroke();
+        }
+
+        drawArrow(ctx, cx, cy, gx, gy, '#183076', 1.8, 7);
+        drawArrow(ctx, gx, gy, px, py, '#12766e', 2.0, 7);
+
+        ctx.fillStyle = '#183076'; ctx.beginPath(); ctx.arc(cx, cy, 3.2, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#2969b9'; ctx.beginPath(); ctx.arc(gx, gy, 3.2, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#111827'; ctx.beginPath(); ctx.arc(qx, qy, 3.0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#c02d2d'; ctx.beginPath(); ctx.arc(px, py, 5.2, 0, Math.PI * 2); ctx.fill();
+
+        ctx.font = 'italic bold 14px "KaTeX_Math", Georgia, serif';
+        ctx.fillStyle = '#183076'; ctx.fillText('O', cx - 15, cy + 16);
+        ctx.fillStyle = '#2969b9'; ctx.fillText('C', gx - 16, gy - 8);
+        ctx.fillStyle = '#c02d2d'; ctx.fillText('P', px - 4, py + 19);
+        ctx.fillStyle = '#111827'; ctx.font = '12px sans-serif';
+        ctx.fillText('Q', qx + 6, qy - 4);
+      }
+      draw();
+    })();
+
+    // =========================================================
+    // SIM 3: Hypocycloids k = 3, 4, 5 Synchronized Live Rolling (Slide 9)
+    // =========================================================
+    (function () {
+      const configs = [
+        { ...initHiDPI('canvas-hypo-3'), k: 3 },
+        { ...initHiDPI('canvas-hypo-4'), k: 4 },
+        { ...initHiDPI('canvas-hypo-5'), k: 5 }
+      ];
+      let theta = 0.5;
+
+      function draw() {
+        requestAnimationFrame(draw);
+        if (!isSimActive('hypo')) return;
+        theta += 0.015;
+
+        configs.forEach(({ ctx, W, H, k }) => {
+          ctx.clearRect(0, 0, W, H);
+          const cx = W / 2, cy = H / 2, R = 112, r = R / k;
+
+          // Outer fixed circle
+          ctx.strokeStyle = '#183076'; ctx.lineWidth = 2.2;
+          ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+
+          // Dashed red hypocycloid trajectory
+          ctx.strokeStyle = '#c02d2d'; ctx.setLineDash([5, 3.5]); ctx.lineWidth = 2.0;
+          ctx.beginPath();
+          for (let i = 0; i <= 260; i++) {
+            const t = (i / 260) * Math.PI * 2;
+            const x = cx + (R - r) * Math.cos(t) + r * Math.cos(-(k - 1) * t);
+            const y = cy - ((R - r) * Math.sin(t) + r * Math.sin(-(k - 1) * t));
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Rolling small circle
+          const gx = cx + (R - r) * Math.cos(theta);
+          const gy = cy - (R - r) * Math.sin(theta);
+          const spin = -(k - 1) * theta;
+          const px = gx + r * Math.cos(spin);
+          const py = gy - r * Math.sin(spin);
+
+          ctx.fillStyle = 'rgba(41, 105, 185, 0.13)';
+          ctx.strokeStyle = '#2969b9'; ctx.lineWidth = 1.8;
+          ctx.beginPath(); ctx.arc(gx, gy, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+          drawArrow(ctx, cx, cy, gx, gy, '#183076', 1.3, 6);
+          drawArrow(ctx, gx, gy, px, py, '#12766e', 1.8, 6);
+
+          ctx.fillStyle = '#183076'; ctx.beginPath(); ctx.arc(cx, cy, 2.5, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#c02d2d'; ctx.beginPath(); ctx.arc(px, py, 4.5, 0, Math.PI * 2); ctx.fill();
+        });
+      }
+      draw();
+    })();
+
+    // =========================================================
+    // SIM 4: Beats Compact Strip (Slide 10)
+    // =========================================================
+    (function () {
+      const { ctx, W, H } = initHiDPI('canvas-beats');
+      const sl = document.getElementById('beats-df');
+      const val = document.getElementById('beats-df-val');
+      let t0 = 0;
+      sl.oninput = () => val.textContent = parseFloat(sl.value).toFixed(1);
+
+      function draw() {
+        requestAnimationFrame(draw);
+        if (!isSimActive('beats')) return;
+        t0 += 0.012;
+        const df = parseFloat(sl.value), f1 = 7.0, f2 = f1 + df;
+        ctx.clearRect(0, 0, W, H);
+        const y0 = H / 2, A = 25, pad = 20, span = W - 40;
+
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(pad, y0); ctx.lineTo(pad + span, y0); ctx.stroke();
+
+        // Envelope
+        ctx.strokeStyle = 'rgba(192,45,45,0.45)'; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.4;
+        for (const s of [1, -1]) {
+          ctx.beginPath();
+          for (let i = 0; i <= span; i += 2) {
+            const x = (i / span) * 3.2;
+            const y = y0 - s * 2 * A * Math.cos(Math.PI * df * (x - t0 * 0.25));
+            if (i === 0) ctx.moveTo(pad + i, y); else ctx.lineTo(pad + i, y);
+          }
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+
+        // Combined beat wave
+        ctx.strokeStyle = '#183076'; ctx.lineWidth = 1.9;
+        ctx.beginPath();
+        for (let i = 0; i <= span; i++) {
+          const x = (i / span) * 3.2;
+          const y = y0 - A * (Math.cos(2 * Math.PI * f1 * (x - t0 * 0.25)) + Math.cos(2 * Math.PI * f2 * (x - t0 * 0.25)));
+          if (i === 0) ctx.moveTo(pad + i, y); else ctx.lineTo(pad + i, y);
+        }
+        ctx.stroke();
+      }
+      draw();
+    })();
+
+    // =========================================================
+    // SIM 5: Resonance 3 Curves + Live Forced Oscillator (Slide 11)
+    // =========================================================
+    (function () {
+      const { ctx, W, H } = initHiDPI('canvas-resonance');
+      const wSl = document.getElementById('res-w');
+      const wVal = document.getElementById('res-w-val');
+      let t = 0;
+      wSl.oninput = () => wVal.textContent = parseFloat(wSl.value).toFixed(2);
+
+      function amp(r, b) { return 1 / Math.sqrt((1 - r * r) ** 2 + (2 * b * r) ** 2); }
+
+      function draw() {
+        requestAnimationFrame(draw);
+        if (!isSimActive('resonance')) return;
+        const rCur = parseFloat(wSl.value);
+        t += 0.032 * rCur;
+        ctx.clearRect(0, 0, W, H);
+
+        const ox = 46, oy = 265, gx = 375, gy = 225;
+        drawArrow(ctx, ox, oy, ox + gx + 14, oy, '#111827', 1.4, 7);
+        drawArrow(ctx, ox, oy, ox, oy - gy - 12, '#111827', 1.4, 7);
+        ctx.fillStyle = '#111827'; ctx.font = 'italic 13px "KaTeX_Math", Georgia, serif';
+        ctx.fillText('ω/ω₀', ox + gx - 6, oy + 20);
+        ctx.fillText('A(ω)', ox - 36, oy - gy - 4);
+
+        const x1 = ox + 0.5 * gx;
+        ctx.strokeStyle = '#94a3b8'; ctx.setLineDash([4, 4]); ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.moveTo(x1, oy); ctx.lineTo(x1, oy - gy); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#111827'; ctx.fillText('1', x1 - 4, oy + 16);
+
+        const curves = [
+          { b: 0.15, col: '#c02d2d', lbl: 'β₁（弱阻尼）', lx: x1 + 14, ly: oy - 190 },
+          { b: 0.35, col: '#183076', lbl: 'β₂（中阻尼）', lx: x1 + 22, ly: oy - 102 },
+          { b: 0.70, col: '#12766e', lbl: 'β₃（强阻尼）', lx: x1 + 28, ly: oy - 48 }
+        ];
+        const sy = 56;
+        curves.forEach(c => {
+          ctx.strokeStyle = c.col; ctx.lineWidth = 2.2;
+          ctx.beginPath();
+          for (let i = 0; i <= 200; i++) {
+            const r = (i / 200) * 2.0;
+            const px = ox + (r / 2.0) * gx;
+            const py = oy - Math.min(amp(r, c.b), 3.9) * sy;
+            if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+          ctx.fillStyle = c.col; ctx.font = '12px sans-serif';
+          ctx.fillText(c.lbl, c.lx, c.ly);
+        });
+
+        // Live operating dot on beta1
+        const curA = amp(rCur, 0.15);
+        const cx = ox + (rCur / 2.0) * gx, cy = oy - Math.min(curA, 3.9) * sy;
+        ctx.fillStyle = '#c02d2d'; ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
+
+        // Bottom live oscillator
+        const my = 335, mcx = W / 2, disp = Math.min(curA * 26, 155) * Math.cos(t * 2.5);
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(45, my); ctx.lineTo(W - 45, my); ctx.stroke();
+        ctx.strokeStyle = '#12766e'; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(48, my);
+        for (let i = 1; i <= 14; i++) {
+          const sx = 48 + (i / 15) * (mcx + disp - 14 - 48);
+          ctx.lineTo(sx, my + (i % 2 === 0 ? 8 : -8));
+        }
+        ctx.lineTo(mcx + disp - 14, my); ctx.stroke();
+        ctx.fillStyle = '#c02d2d'; ctx.fillRect(mcx + disp - 14, my - 13, 28, 26);
+      }
+      draw();
+    })();
+
+    // =========================================================
+    // SIM 6: 1D Wave Equation String Micro-Element (Slide 12)
+    // =========================================================
+    (function () {
+      const { ctx, W, H } = initHiDPI('canvas-wave-elem');
+      let t = 0;
+      function draw() {
+        requestAnimationFrame(draw);
+        if (!isSimActive('wave-elem')) return;
+        t += 0.03;
+        ctx.clearRect(0, 0, W, H);
+
+        const ox = 34, oy = 215, gx = 370, gy = 175;
+        drawArrow(ctx, ox, oy, ox + gx + 14, oy, '#64748b', 1.3, 7);
+        drawArrow(ctx, ox, oy, ox, oy - gy - 12, '#64748b', 1.3, 7);
+        ctx.fillStyle = '#111827'; ctx.font = 'italic 14px "KaTeX_Math", Georgia, serif';
+        ctx.fillText('x', ox + gx + 18, oy + 4); ctx.fillText('y', ox - 14, oy - gy - 14);
+
+        const fn = s => 95 + 52 * Math.sin(0.022 * s - t);
+        const dfn = s => 52 * 0.022 * Math.cos(0.022 * s - t);
+
+        // Full traveling wave
+        ctx.strokeStyle = '#183076'; ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        for (let s = 15; s <= gx - 10; s++) {
+          const y = oy - fn(s);
+          if (s === 15) ctx.moveTo(ox + s, y); else ctx.lineTo(ox + s, y);
+        }
+        ctx.stroke();
+
+        // Highlighted micro-element [s1, s2]
+        const s1 = 165, s2 = 225;
+        ctx.strokeStyle = '#c02d2d'; ctx.lineWidth = 4.2;
+        ctx.beginPath();
+        for (let s = s1; s <= s2; s++) {
+          const y = oy - fn(s);
+          if (s === s1) ctx.moveTo(ox + s, y); else ctx.lineTo(ox + s, y);
+        }
+        ctx.stroke();
+
+        // Dashed vertical guides
+        ctx.strokeStyle = '#94a3b8'; ctx.setLineDash([4, 3]); ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.moveTo(ox + s1, oy); ctx.lineTo(ox + s1, oy - fn(s1)); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(ox + s2, oy); ctx.lineTo(ox + s2, oy - fn(s2)); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Tangent tension vectors T(x) and T(x+dx)
+        const a1 = Math.atan(dfn(s1)), a2 = Math.atan(dfn(s2)), TL = 52;
+        drawArrow(ctx, ox + s1, oy - fn(s1), ox + s1 - TL * Math.cos(a1), oy - fn(s1) + TL * Math.sin(a1), '#12766e', 2.0, 7);
+        drawArrow(ctx, ox + s2, oy - fn(s2), ox + s2 + TL * Math.cos(a2), oy - fn(s2) - TL * Math.sin(a2), '#12766e', 2.0, 7);
+
+        ctx.fillStyle = '#111827'; ctx.font = 'italic 13px "KaTeX_Math", Georgia, serif';
+        ctx.fillText('x', ox + s1 - 4, oy + 16);
+        ctx.fillText('x+dx', ox + s2 - 14, oy + 16);
+        ctx.fillStyle = '#12766e';
+        ctx.fillText('T(x)', ox + s1 - TL * Math.cos(a1) - 24, oy - fn(s1) + TL * Math.sin(a1) - 4);
+        ctx.fillText('T(x+dx)', ox + s2 + TL * Math.cos(a2) + 4, oy - fn(s2) - TL * Math.sin(a2) + 4);
+      }
+      draw();
+    })();
+
+    // =========================================================
+    // SIM 7: Standing Wave Strip (Slide 14)
+    // =========================================================
+    (function () {
+      const { ctx, W, H } = initHiDPI('canvas-standing');
+      const btns = document.querySelectorAll('.stand-n');
+      let n = 3, t = 0;
+      btns.forEach(b => b.onclick = () => {
+        n = parseInt(b.dataset.n, 10);
+        btns.forEach(x => x.classList.toggle('active', x === b));
+      });
+
+      function draw() {
+        requestAnimationFrame(draw);
+        if (!isSimActive('standing')) return;
+        t += 0.045;
+        ctx.clearRect(0, 0, W, H);
+        const pad = 28, L = W - 56, y0 = H / 2, A = 24, k = (n * Math.PI) / L;
+
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.1;
+        ctx.beginPath(); ctx.moveTo(pad, y0); ctx.lineTo(pad + L, y0); ctx.stroke();
+
+        // Component traveling waves
+        ctx.setLineDash([5, 4]); ctx.lineWidth = 1.3;
+        ctx.strokeStyle = 'rgba(41,105,185,0.45)';
+        ctx.beginPath();
+        for (let i = 0; i <= L; i += 2) {
+          const y = y0 - A * Math.sin(k * i - t);
+          if (i === 0) ctx.moveTo(pad + i, y); else ctx.lineTo(pad + i, y);
+        }
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(18,118,110,0.45)';
+        ctx.beginPath();
+        for (let i = 0; i <= L; i += 2) {
+          const y = y0 - A * Math.sin(k * i + t);
+          if (i === 0) ctx.moveTo(pad + i, y); else ctx.lineTo(pad + i, y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Standing wave
+        ctx.strokeStyle = '#c02d2d'; ctx.lineWidth = 2.8;
+        ctx.beginPath();
+        for (let i = 0; i <= L; i += 2) {
+          const y = y0 - 2 * A * Math.sin(k * i) * Math.cos(t);
+          if (i === 0) ctx.moveTo(pad + i, y); else ctx.lineTo(pad + i, y);
+        }
+        ctx.stroke();
+
+        // Nodes
+        for (let m = 0; m <= n; m++) {
+          ctx.fillStyle = '#183076';
+          ctx.beginPath(); ctx.arc(pad + (m / n) * L, y0, 4.5, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+      draw();
+    })();
+
+    // =========================================================
+    // SIM 8: Square Stepwise Approximation 1/2/3/4 Circles (Slide 23)
+    // =========================================================
+    (function () {
+      const { ctx, W, H } = initHiDPI('canvas-sq-approx');
+      const btns = document.querySelectorAll('.sq-btn');
+      const terms = [
+        { n: 1, c: 1.14632 },
+        { n: -3, c: -0.12737 },
+        { n: 5, c: -0.04585 },
+        { n: -7, c: 0.02339 }
+      ];
+      let M = 4, t = 0.5;
+      btns.forEach(b => b.onclick = () => {
+        M = parseInt(b.dataset.m, 10);
+        btns.forEach(x => x.classList.toggle('active', x === b));
+      });
+
+      function draw() {
+        requestAnimationFrame(draw);
+        if (!isSimActive('sq-approx')) return;
+        t += 0.015;
+        ctx.clearRect(0, 0, W, H);
+        const cx = W / 2, cy = H / 2, S = 128;
+
+        drawArrow(ctx, cx - 185, cy, cx + 195, cy, '#94a3b8', 1.1, 6);
+        drawArrow(ctx, cx, cy + 175, cx, cy - 175, '#94a3b8', 1.1, 6);
+
+        // Ideal dashed square
+        ctx.strokeStyle = '#94a3b8'; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.2;
+        ctx.strokeRect(cx - S, cy - S, 2 * S, 2 * S);
+        ctx.setLineDash([]);
+
+        // Full M-term curve
+        ctx.strokeStyle = '#c02d2d'; ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        for (let i = 0; i <= 260; i++) {
+          const ang = (i / 260) * Math.PI * 2;
+          let x = cx, y = cy;
+          for (let j = 0; j < M; j++) {
+            x += S * terms[j].c * Math.cos(terms[j].n * ang);
+            y -= S * terms[j].c * Math.sin(terms[j].n * ang);
+          }
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Live rotating epicycles
+        let x = cx, y = cy;
+        const cols = ['#183076', '#2969b9', '#12766e', '#c02d2d'];
+        for (let j = 0; j < M; j++) {
+          const px = x, py = y;
+          const r = Math.abs(terms[j].c) * S;
+          x += S * terms[j].c * Math.cos(terms[j].n * t);
+          y -= S * terms[j].c * Math.sin(terms[j].n * t);
+          ctx.strokeStyle = j === M - 1 ? cols[j] : 'rgba(41,105,185,0.35)';
+          ctx.lineWidth = j === M - 1 ? 1.8 : 1.1;
+          ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2); ctx.stroke();
+          drawArrow(ctx, px, py, x, y, cols[j], 1.8, 6);
+        }
+        ctx.fillStyle = '#c02d2d'; ctx.beginPath(); ctx.arc(x, y, 4.5, 0, Math.PI * 2); ctx.fill();
+      }
+      draw();
+    })();
+
+    // =========================================================
+    // SIM 9: Fourier Epicycles Live Tracing & Freehand Draw (Slide 24)
+    // =========================================================
+    (function () {
+      const { canvas, ctx, W, H } = initHiDPI('canvas-fourier');
+      const nSl = document.getElementById('fourier-n');
+      const nVal = document.getElementById('fourier-n-val');
+      const presets = document.querySelectorAll('.fourier-preset');
+      const drawBtn = document.getElementById('fourier-draw-btn');
+
+      let epicycles = [], trace = [], time = 0, drawingMode = false, down = false, userPts = [];
+
+      function computeDFT(pts) {
+        const N = pts.length, out = [], half = Math.floor(N / 2);
+        for (let k = -half; k <= half; k++) {
+          let re = 0, im = 0;
+          for (let n = 0; n < N; n++) {
+            const phi = (-2 * Math.PI * k * n) / N;
+            re += pts[n].re * Math.cos(phi) - pts[n].im * Math.sin(phi);
+            im += pts[n].re * Math.sin(phi) + pts[n].im * Math.cos(phi);
+          }
+          re /= N; im /= N;
+          out.push({ freq: k, amp: Math.hypot(re, im), phase: Math.atan2(im, re) });
+        }
+        out.sort((a, b) => b.amp - a.amp);
+        return out;
+      }
+
+      function makePreset(shape) {
+        const N = 160, pts = [];
+        for (let i = 0; i < N; i++) {
+          const s = i / N; let x = 0, y = 0;
+          if (shape === 'square') {
+            const p = s * 4, R = 115;
+            if (p < 1) { x = R; y = -R + 2 * R * p; }
+            else if (p < 2) { x = R - 2 * R * (p - 1); y = R; }
+            else if (p < 3) { x = -R; y = R - 2 * R * (p - 2); }
+            else { x = -R + 2 * R * (p - 3); y = -R; }
+          } else if (shape === 'heart') {
+            const t = s * Math.PI * 2;
+            x = 8.4 * 16 * Math.sin(t) ** 3;
+            y = -8.4 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+          } else {
+            const spikes = 5, R1 = 136, R2 = 56, seg = s * spikes * 2;
+            const idx = Math.floor(seg), f = seg - idx;
+            const a0 = (idx * Math.PI) / spikes - Math.PI / 2, a1 = ((idx + 1) * Math.PI) / spikes - Math.PI / 2;
+            const r0 = idx % 2 === 0 ? R1 : R2, r1 = idx % 2 === 0 ? R2 : R1;
+            x = r0 * Math.cos(a0) * (1 - f) + r1 * Math.cos(a1) * f;
+            y = r0 * Math.sin(a0) * (1 - f) + r1 * Math.sin(a1) * f;
+          }
+          pts.push({ re: x, im: y });
+        }
+        return pts;
+      }
+
+      function loadShape(shape) {
+        drawingMode = false; drawBtn.classList.remove('active');
+        presets.forEach(b => b.classList.toggle('active', b.dataset.shape === shape));
+        epicycles = computeDFT(makePreset(shape));
+        trace = []; time = 0;
+      }
+
+      presets.forEach(b => b.onclick = () => loadShape(b.dataset.shape));
+      nSl.oninput = () => { nVal.textContent = nSl.value; trace = []; time = 0; };
+      drawBtn.onclick = () => {
+        drawingMode = true; presets.forEach(b => b.classList.remove('active'));
+        drawBtn.classList.add('active'); userPts = []; trace = [];
+      };
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        return { x: ((e.clientX - rect.left) / rect.width) * W, y: ((e.clientY - rect.top) / rect.height) * H };
+      }
+
+      // Uniformly resample a closed polygon to M points for crisp DFT even on fast strokes
+      function resampleClosed(pts, M = 160) {
+        const closed = pts.concat([pts[0]]);
+        const dists = [0];
+        for (let i = 1; i < closed.length; i++) {
+          dists.push(dists[i - 1] + Math.hypot(closed[i].re - closed[i - 1].re, closed[i].im - closed[i - 1].im));
+        }
+        const total = dists[dists.length - 1];
+        if (total < 1e-3) return pts;
+        const out = [];
+        let seg = 0;
+        for (let k = 0; k < M; k++) {
+          const target = (k / M) * total;
+          while (seg < dists.length - 2 && dists[seg + 1] < target) seg++;
+          const segLen = dists[seg + 1] - dists[seg] || 1;
+          const t = (target - dists[seg]) / segLen;
+          out.push({
+            re: closed[seg].re * (1 - t) + closed[seg + 1].re * t,
+            im: closed[seg].im * (1 - t) + closed[seg + 1].im * t
+          });
+        }
+        return out;
+      }
+
+      function finishDrawing() {
+        if (!down) return;
+        down = false;
+        if (userPts.length >= 5) {
+          epicycles = computeDFT(resampleClosed(userPts, 160));
+          drawingMode = false;
+          drawBtn.classList.remove('active');
+          trace = [];
+          time = 0;
+        }
+      }
+
+      canvas.addEventListener('pointerdown', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        drawingMode = true;
+        presets.forEach(b => b.classList.remove('active'));
+        drawBtn.classList.add('active');
+        down = true;
+        userPts = [];
+        trace = [];
+        try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+        const p = getPos(e);
+        userPts.push({ re: p.x - W / 2, im: p.y - H / 2 });
+      });
+
+      canvas.addEventListener('pointermove', e => {
+        if (!down) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const p = getPos(e);
+        const re = p.x - W / 2, im = p.y - H / 2;
+        const last = userPts[userPts.length - 1];
+        if (!last || Math.hypot(re - last.re, im - last.im) >= 2.5) {
+          userPts.push({ re, im });
+        }
+      });
+
+      canvas.addEventListener('pointerup', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        try { canvas.releasePointerCapture(e.pointerId); } catch (_) {}
+        finishDrawing();
+      });
+
+      canvas.addEventListener('pointercancel', finishDrawing);
+      window.addEventListener('pointerup', finishDrawing);
+
+      loadShape('square');
+
+      function draw() {
+        requestAnimationFrame(draw);
+        if (!isSimActive('fourier')) return;
+        ctx.clearRect(0, 0, W, H);
+        const cx = W / 2, cy = H / 2;
+
+        ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
+
+        if (drawingMode) {
+          ctx.fillStyle = '#12766e'; ctx.font = 'bold 13px sans-serif';
+          ctx.fillText('按住鼠标随意画一条封闭曲线，松手即可实时 DFT 生成旋转圆', 22, 24);
+          if (userPts.length > 1) {
+            ctx.strokeStyle = '#c02d2d'; ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            userPts.forEach((p, i) => i === 0 ? ctx.moveTo(cx + p.re, cy + p.im) : ctx.lineTo(cx + p.re, cy + p.im));
+            ctx.stroke();
+          }
+          return;
+        }
+
+        const M = Math.min(parseInt(nSl.value, 10), epicycles.length);
+        let x = cx, y = cy;
+        for (let i = 0; i < M; i++) {
+          const px = x, py = y, ep = epicycles[i], a = ep.freq * time + ep.phase;
+          x += ep.amp * Math.cos(a); y += ep.amp * Math.sin(a);
+          if (ep.amp > 1.0) {
+            ctx.strokeStyle = 'rgba(41,105,185,0.28)'; ctx.lineWidth = 1.1;
+            ctx.beginPath(); ctx.arc(px, py, ep.amp, 0, Math.PI * 2); ctx.stroke();
+            ctx.strokeStyle = 'rgba(24,48,118,0.68)'; ctx.lineWidth = 1.3;
+            ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(x, y); ctx.stroke();
+          }
+        }
+        trace.unshift({ x, y });
+        if (trace.length > 310) trace.pop();
+        ctx.strokeStyle = '#c02d2d'; ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        trace.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+        ctx.stroke();
+        ctx.fillStyle = '#c02d2d'; ctx.beginPath(); ctx.arc(x, y, 4.2, 0, Math.PI * 2); ctx.fill();
+
+        time += (2 * Math.PI) / 280;
+        if (time >= 2 * Math.PI) time -= 2 * Math.PI;
+      }
+      draw();
+    })();
+  </script>
+</body>
+</html>
+
