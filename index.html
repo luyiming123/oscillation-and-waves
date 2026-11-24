@@ -958,7 +958,7 @@
               <button class="fourier-preset" data-shape="heart">心形</button>
               <button class="fourier-preset" data-shape="star">五角星</button>
               <button id="fourier-draw-btn" class="secondary">自由手绘</button>
-              <label>圆数 $N$=<span id="fourier-n-val">12</span> <input id="fourier-n" type="range" min="1" max="50" step="1" value="12" style="width:76px;" /></label>
+              <label>圆数 $N$=<span id="fourier-n-val">35</span> <input id="fourier-n" type="range" min="1" max="150" step="1" value="35" style="width:82px;" /></label>
             </div>
           </div>
           <div>
@@ -1556,11 +1556,12 @@
       const presets = document.querySelectorAll('.fourier-preset');
       const drawBtn = document.getElementById('fourier-draw-btn');
 
-      let epicycles = [], trace = [], time = 0, drawingMode = false, down = false, userPts = [];
+      let epicycles = [], rawContour = [], trace = [], time = 0, drawingMode = false, down = false, userPts = [];
 
       function computeDFT(pts) {
-        const N = pts.length, out = [], half = Math.floor(N / 2);
-        for (let k = -half; k <= half; k++) {
+        const N = pts.length, out = [], maxK = Math.min(120, Math.floor(N / 2));
+        let dc = null;
+        for (let k = -maxK; k <= maxK; k++) {
           let re = 0, im = 0;
           for (let n = 0; n < N; n++) {
             const phi = (-2 * Math.PI * k * n) / N;
@@ -1568,14 +1569,16 @@
             im += pts[n].re * Math.sin(phi) + pts[n].im * Math.cos(phi);
           }
           re /= N; im /= N;
-          out.push({ freq: k, amp: Math.hypot(re, im), phase: Math.atan2(im, re) });
+          const item = { freq: k, amp: Math.hypot(re, im), phase: Math.atan2(im, re) };
+          if (k === 0) dc = item;
+          else out.push(item);
         }
         out.sort((a, b) => b.amp - a.amp);
-        return out;
+        return dc ? [dc, ...out] : out;
       }
 
       function makePreset(shape) {
-        const N = 160, pts = [];
+        const N = 360, pts = [];
         for (let i = 0; i < N; i++) {
           const s = i / N; let x = 0, y = 0;
           if (shape === 'square') {
@@ -1604,7 +1607,8 @@
       function loadShape(shape) {
         drawingMode = false; drawBtn.classList.remove('active');
         presets.forEach(b => b.classList.toggle('active', b.dataset.shape === shape));
-        epicycles = computeDFT(makePreset(shape));
+        rawContour = makePreset(shape);
+        epicycles = computeDFT(rawContour);
         trace = []; time = 0;
       }
 
@@ -1612,7 +1616,7 @@
       nSl.oninput = () => { nVal.textContent = nSl.value; trace = []; time = 0; };
       drawBtn.onclick = () => {
         drawingMode = true; presets.forEach(b => b.classList.remove('active'));
-        drawBtn.classList.add('active'); userPts = []; trace = [];
+        drawBtn.classList.add('active'); userPts = []; rawContour = []; trace = [];
       };
 
       function getPos(e) {
@@ -1620,8 +1624,8 @@
         return { x: ((e.clientX - rect.left) / rect.width) * W, y: ((e.clientY - rect.top) / rect.height) * H };
       }
 
-      // Uniformly resample a closed polygon to M points for crisp DFT even on fast strokes
-      function resampleClosed(pts, M = 160) {
+      // Uniformly resample a closed polygon to 360 points for ultra-accurate DFT
+      function resampleClosed(pts, M = 360) {
         const closed = pts.concat([pts[0]]);
         const dists = [0];
         for (let i = 1; i < closed.length; i++) {
@@ -1648,7 +1652,13 @@
         if (!down) return;
         down = false;
         if (userPts.length >= 5) {
-          epicycles = computeDFT(resampleClosed(userPts, 160));
+          rawContour = resampleClosed(userPts, 360);
+          epicycles = computeDFT(rawContour);
+          // Auto-bump circle count to at least 60 for crisp freehand accuracy
+          if (parseInt(nSl.value, 10) < 60) {
+            nSl.value = 60;
+            nVal.textContent = '60';
+          }
           drawingMode = false;
           drawBtn.classList.remove('active');
           trace = [];
@@ -1664,6 +1674,7 @@
         drawBtn.classList.add('active');
         down = true;
         userPts = [];
+        rawContour = [];
         trace = [];
         try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
         const p = getPos(e);
@@ -1677,7 +1688,7 @@
         const p = getPos(e);
         const re = p.x - W / 2, im = p.y - H / 2;
         const last = userPts[userPts.length - 1];
-        if (!last || Math.hypot(re - last.re, im - last.im) >= 2.5) {
+        if (!last || Math.hypot(re - last.re, im - last.im) >= 1.8) {
           userPts.push({ re, im });
         }
       });
@@ -1694,6 +1705,16 @@
 
       loadShape('square');
 
+      function evalEpicycles(M, tVal) {
+        let x = W / 2, y = H / 2;
+        for (let i = 0; i < M; i++) {
+          const ep = epicycles[i], a = ep.freq * tVal + ep.phase;
+          x += ep.amp * Math.cos(a);
+          y += ep.amp * Math.sin(a);
+        }
+        return { x, y };
+      }
+
       function draw() {
         requestAnimationFrame(draw);
         if (!isSimActive('fourier')) return;
@@ -1706,9 +1727,9 @@
 
         if (drawingMode) {
           ctx.fillStyle = '#12766e'; ctx.font = 'bold 13px sans-serif';
-          ctx.fillText('按住鼠标随意画一条封闭曲线，松手即可实时 DFT 生成旋转圆', 22, 24);
+          ctx.fillText('按住鼠标随意画一条封闭曲线，松手即可高精度 DFT 重绘', 26, 24);
           if (userPts.length > 1) {
-            ctx.strokeStyle = '#c02d2d'; ctx.lineWidth = 2.5;
+            ctx.strokeStyle = '#c02d2d'; ctx.lineWidth = 2.4;
             ctx.beginPath();
             userPts.forEach((p, i) => i === 0 ? ctx.moveTo(cx + p.re, cy + p.im) : ctx.lineTo(cx + p.re, cy + p.im));
             ctx.stroke();
@@ -1716,28 +1737,51 @@
           return;
         }
 
-        const M = Math.min(parseInt(nSl.value, 10), epicycles.length);
+        // Faint dashed reference of target / hand-drawn contour
+        if (rawContour.length > 2) {
+          ctx.strokeStyle = 'rgba(148, 163, 184, 0.45)';
+          ctx.setLineDash([4, 4]);
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          rawContour.forEach((p, i) => i === 0 ? ctx.moveTo(cx + p.re, cy + p.im) : ctx.lineTo(cx + p.re, cy + p.im));
+          ctx.closePath();
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        // M includes DC center term + top N rotating circles
+        const M = Math.min(parseInt(nSl.value, 10) + 1, epicycles.length);
+
+        // Sub-step 3 times per frame for razor-sharp corners even at high N!
+        const stepsPerCycle = 720;
+        const dt = (2 * Math.PI) / stepsPerCycle;
+        for (let s = 0; s < 2; s++) {
+          time += dt;
+          if (time >= 2 * Math.PI) time -= 2 * Math.PI;
+          trace.unshift(evalEpicycles(M, time));
+          if (trace.length > stepsPerCycle) trace.pop();
+        }
+
+        // Draw rotating circles & vectors at current time
         let x = cx, y = cy;
         for (let i = 0; i < M; i++) {
           const px = x, py = y, ep = epicycles[i], a = ep.freq * time + ep.phase;
-          x += ep.amp * Math.cos(a); y += ep.amp * Math.sin(a);
-          if (ep.amp > 1.0) {
-            ctx.strokeStyle = 'rgba(41,105,185,0.28)'; ctx.lineWidth = 1.1;
+          x += ep.amp * Math.cos(a);
+          y += ep.amp * Math.sin(a);
+          if (ep.freq !== 0 && ep.amp > 0.9) {
+            ctx.strokeStyle = 'rgba(41,105,185,0.26)'; ctx.lineWidth = 1.0;
             ctx.beginPath(); ctx.arc(px, py, ep.amp, 0, Math.PI * 2); ctx.stroke();
-            ctx.strokeStyle = 'rgba(24,48,118,0.68)'; ctx.lineWidth = 1.3;
+            ctx.strokeStyle = 'rgba(24,48,118,0.68)'; ctx.lineWidth = 1.2;
             ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(x, y); ctx.stroke();
           }
         }
-        trace.unshift({ x, y });
-        if (trace.length > 310) trace.pop();
-        ctx.strokeStyle = '#c02d2d'; ctx.lineWidth = 2.5;
+
+        // Draw crisp red reconstructed trace
+        ctx.strokeStyle = '#c02d2d'; ctx.lineWidth = 2.4;
         ctx.beginPath();
         trace.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
         ctx.stroke();
-        ctx.fillStyle = '#c02d2d'; ctx.beginPath(); ctx.arc(x, y, 4.2, 0, Math.PI * 2); ctx.fill();
-
-        time += (2 * Math.PI) / 280;
-        if (time >= 2 * Math.PI) time -= 2 * Math.PI;
+        ctx.fillStyle = '#c02d2d'; ctx.beginPath(); ctx.arc(x, y, 4.0, 0, Math.PI * 2); ctx.fill();
       }
       draw();
     })();
