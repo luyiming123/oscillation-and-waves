@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -6,182 +6,201 @@
   <title>第七章 振动和波动 — Yiming Lu（陆一鸣）· 兰州大学</title>
 
   <!-- Local Offline Reveal.js 5 & KaTeX -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+  <link rel="stylesheet" href="assets/reveal/dist/reset.css" />
+  <link rel="stylesheet" href="assets/reveal/dist/reveal.css" />
+  <link rel="stylesheet" href="assets/katex/dist/katex.min.css" />
 
   <style>
+    /* Authentic LaTeX Beamer "default" Theme Palette & Typography */
     :root {
-      --navy: #183076;
-      --navy-top: #1f3c91;
-      --navy-dark: #11245b;
-      --blue: #2969b9;
-      --red: #c02d2d;
-      --red-top: #cf3636;
-      --teal: #12766e;
-      --teal-top: #178a81;
-      --soft-navy: #f4f6fa;
-      --soft-teal: #eef7f6;
-      --soft-red: #fdf2f2;
-      --text: #111827;
+      --beamer-blue: #3333b3;   /* Beamer default structure blue (rgb 0.2, 0.2, 0.7) */
+      --beamer-green: #006000;  /* Beamer default example green */
+      --beamer-red: #cc0000;    /* Beamer default alert red */
+      --text: #000000;
     }
 
     body {
-      background: #141821;
-      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Segoe UI", sans-serif;
+      background: #1a1a1a;
+      /* English: KaTeX_SansSerif (Computer Modern Sans), Chinese: ctexbeamer default SimHei/Heiti */
+      font-family: "KaTeX_SansSerif", "Latin Modern Sans", "CMU Sans Serif", "SimHei", "STHeiti", "Microsoft YaHei", sans-serif;
       -webkit-font-smoothing: antialiased;
     }
 
     .reveal {
       color: var(--text);
-      font-size: 21px;
+      font-size: 24px;
+      font-family: inherit;
     }
 
-    /* Pixel-faithful Beamer Madrid White Canvas */
+    /* Classic Beamer default: Pure White Flat Canvas */
     .reveal .slides section {
       background: #ffffff;
       border-radius: 0;
-      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
-      padding: 18px 40px 38px 40px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+      padding: 26px 46px 34px 46px;
       box-sizing: border-box;
       text-align: left;
       height: 100%;
+      display: flex !important;
+      flex-direction: column;
     }
 
-    /* Classic Madrid Title & Section Slides */
+    .reveal .slides section:not(.title-slide):not(.section-slide) > .slide-header {
+      flex-shrink: 0;
+      margin-bottom: auto;
+    }
+    .reveal .slides section:not(.title-slide):not(.section-slide) > :nth-last-child(2) {
+      margin-bottom: auto;
+    }
+
+    /* Beamer default Title & Section Slides: Plain white canvas, blue text, no filled box */
     .reveal .slides section.title-slide,
     .reveal .slides section.section-slide {
       background: #ffffff;
       color: var(--text);
-      display: flex !important;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding-bottom: 44px;
+      padding-bottom: 40px;
     }
 
     .madrid-titlebox {
-      background: linear-gradient(180deg, var(--navy-top) 0%, var(--navy) 100%);
-      color: #ffffff;
-      border-radius: 8px;
-      padding: 22px 54px;
-      width: 82%;
-      box-shadow: 0 4px 12px rgba(24, 48, 118, 0.22);
-      margin-bottom: 28px;
+      background: transparent;
+      color: var(--beamer-blue);
+      border-radius: 0;
+      padding: 12px 24px;
+      width: 86%;
+      box-shadow: none;
+      margin-bottom: 24px;
     }
 
     .madrid-titlebox h1,
     .madrid-titlebox h2 {
-      color: #ffffff !important;
-      margin: 0 0 8px 0;
-      font-weight: 700;
-      letter-spacing: 0.4px;
+      color: var(--beamer-blue) !important;
+      margin: 0 0 10px 0;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .madrid-titlebox div {
+      color: var(--beamer-blue);
+      opacity: 0.92 !important;
     }
 
     .madrid-meta {
-      color: #111827;
-      font-size: 0.96em;
-      line-height: 1.95;
+      color: #000000;
+      font-size: 0.98em;
+      line-height: 2.0;
     }
 
-    /* Classic Madrid Full-Width Frame Title Bar */
+    /* Beamer default Frame Title: Plain blue heading directly on white background */
     .slide-header {
-      background: linear-gradient(180deg, var(--navy-top) 0%, var(--navy) 100%);
-      color: #ffffff;
-      margin: -18px -40px 18px -40px;
-      padding: 11px 32px;
+      background: transparent;
+      color: var(--beamer-blue);
+      margin: 0 0 14px 0;
+      padding: 0 0 6px 0;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 5px rgba(17, 36, 91, 0.18);
+      align-items: baseline;
+      box-shadow: none;
     }
 
     .slide-header h2 {
       margin: 0;
-      font-size: 1.18em;
-      font-weight: 600;
-      color: #ffffff;
-      letter-spacing: 0.2px;
+      font-size: 1.32em;
+      font-weight: 500;
+      color: var(--beamer-blue);
+      letter-spacing: 0;
     }
 
     .grid-2 {
       display: grid;
       grid-template-columns: 1.12fr 0.88fr;
-      gap: 20px;
-      align-items: start;
+      gap: 24px;
+      align-items: center;
     }
 
     .grid-2-eq {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 24px;
       align-items: start;
     }
 
     .grid-2-rev {
       display: grid;
       grid-template-columns: 0.94fr 1.06fr;
-      gap: 20px;
+      gap: 24px;
       align-items: center;
     }
 
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      align-items: stretch;
+      gap: 20px;
+      align-items: start;
     }
 
-    /* Authentic Beamer Madrid Blocks with Subtle Shading Seam (matching p3!) */
+    /* Beamer default Blocks: No background fill, colored title text directly over body */
     .card {
-      background: var(--soft-navy);
-      border-radius: 7px;
-      padding: 0 18px 13px 18px;
+      background: transparent;
+      border-radius: 0;
+      padding: 2px 0 10px 0;
       margin-bottom: 14px;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+      overflow: visible;
+      box-shadow: none;
     }
 
-    .card.teal { background: var(--soft-teal); }
-    .card.red  { background: var(--soft-red); }
+    .card.teal { background: transparent; }
+    .card.red  { background: transparent; }
 
     .card-title {
-      background: linear-gradient(180deg, var(--navy-top) 0%, var(--navy) 100%);
-      color: #ffffff;
+      background: transparent;
+      color: var(--beamer-blue);
       font-weight: 600;
-      font-size: 0.93em;
-      margin: 0 -18px 10px -18px;
-      padding: 6px 18px;
-      border-radius: 7px 7px 0 0;
-      box-shadow: 0 2px 4px rgba(17, 36, 91, 0.16);
+      font-size: 1.02em;
+      margin: 0 0 8px 0;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
     }
 
     .card.teal .card-title {
-      background: linear-gradient(180deg, var(--teal-top) 0%, var(--teal) 100%);
-      box-shadow: 0 2px 4px rgba(18, 118, 110, 0.16);
+      background: transparent;
+      color: var(--beamer-green);
+      box-shadow: none;
     }
 
     .card.red .card-title {
-      background: linear-gradient(180deg, var(--red-top) 0%, var(--red) 100%);
-      box-shadow: 0 2px 4px rgba(192, 45, 45, 0.16);
+      background: transparent;
+      color: var(--beamer-red);
+      box-shadow: none;
     }
 
     .reveal ul, .reveal ol {
-      margin: 5px 0 4px 20px;
-      line-height: 1.54;
-      font-size: 0.88em;
+      margin: 5px 0 4px 22px;
+      line-height: 1.56;
+      font-size: 0.90em;
     }
 
-    .reveal ul li::marker { color: var(--navy); }
-    .card.teal ul li::marker { color: var(--teal); }
-    .card.red ul li::marker { color: var(--red); }
-    .reveal li { margin-bottom: 4px; }
+    /* Classic Beamer default triangular bullets */
+    .reveal ul { list-style-type: none; padding-left: 0; margin-left: 16px; }
+    .reveal ul > li { position: relative; padding-left: 16px; }
+    .reveal ul > li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--beamer-blue);
+      font-size: 0.9em;
+    }
+    .card.teal ul > li::before { color: var(--beamer-green); }
+    .card.red  ul > li::before { color: var(--beamer-red); }
+    .reveal li { margin-bottom: 5px; }
 
-    .small-text { font-size: 0.84em; line-height: 1.52; }
-    .xs-text { font-size: 0.78em; line-height: 1.46; }
-    .alert-text { color: var(--red); font-weight: 700; }
-    .navy-text { color: var(--navy); font-weight: 700; }
+    .small-text { font-size: 0.88em; line-height: 1.54; }
+    .xs-text { font-size: 0.82em; line-height: 1.48; }
+    .alert-text { color: var(--beamer-red); font-weight: 600; }
+    .navy-text { color: var(--beamer-blue); font-weight: 600; }
 
     /* Beamer \setbeamercovered{transparent=18} */
     .reveal .slides section .fragment {
@@ -191,11 +210,7 @@
     }
     .reveal .slides section .fragment.visible { opacity: 1; }
 
-    /* Clean Academic Diagram Container */
-    .fig-wrap {
-      text-align: center;
-      padding: 2px 0;
-    }
+    .fig-wrap { text-align: center; padding: 2px 0; }
 
     canvas {
       display: block;
@@ -205,18 +220,18 @@
 
     .fig-caption {
       font-size: 0.76em;
-      color: var(--navy);
-      font-weight: 600;
+      color: var(--beamer-blue);
+      font-weight: 500;
       margin-top: 4px;
     }
 
     .fig-sub {
       font-size: 0.70em;
-      color: #334155;
+      color: #222222;
       margin-top: 2px;
     }
 
-    /* Subtle Academic Controls */
+    /* Minimalist Academic Controls */
     .controls {
       display: flex;
       flex-wrap: wrap;
@@ -225,63 +240,53 @@
       justify-content: center;
       margin-top: 6px;
       font-size: 0.68em;
-      color: #334155;
+      color: #222222;
     }
 
     .controls button {
-      background: #eef2fb;
-      color: var(--navy);
-      border: 1px solid #c7d4ee;
-      border-radius: 4px;
+      background: #f5f5fc;
+      color: var(--beamer-blue);
+      border: 1px solid #c5c5e8;
+      border-radius: 3px;
       padding: 3px 9px;
       font-size: 0.95em;
-      font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
     }
 
-    .controls button:hover { background: #dce6f9; }
-    .controls button.active { background: var(--navy); color: #fff; border-color: var(--navy); }
-    .controls button.secondary { background: #e8f5f3; color: var(--teal); border-color: #b4ddd8; }
-    .controls button.secondary.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+    .controls button:hover { background: #e8e8fa; }
+    .controls button.active { background: var(--beamer-blue); color: #fff; border-color: var(--beamer-blue); }
+    .controls button.secondary { background: #f2f9f2; color: var(--beamer-green); border-color: #b7d9b7; }
+    .controls button.secondary.active { background: var(--beamer-green); color: #fff; border-color: var(--beamer-green); }
 
     .controls input[type="range"] {
       width: 100px;
-      accent-color: var(--navy);
+      accent-color: var(--beamer-blue);
       cursor: pointer;
     }
 
     .katex-display {
       margin: 0.42em 0 !important;
-      font-size: 0.95em;
+      font-size: 0.96em;
     }
 
     video {
       width: 100%;
       max-height: 440px;
-      border-radius: 6px;
+      border-radius: 4px;
       background: #000;
-      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.16);
+      border: 1px solid #dddddd;
     }
 
-    /* Authentic Madrid 3-Segment Footline */
-    .madrid-footline {
+    /* Beamer default minimalist page number (bottom-right only, no footline bar) */
+    .default-pagenum {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 25px;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      font-size: 12.5px;
-      line-height: 25px;
-      color: #ffffff;
-      z-index: 20;
+      right: 20px;
+      bottom: 12px;
+      font-size: 13px;
+      color: #666699;
       pointer-events: none;
     }
-    .madrid-footline .f-left  { background: var(--navy-dark); text-align: center; }
-    .madrid-footline .f-mid   { background: var(--blue); text-align: center; }
-    .madrid-footline .f-right { background: var(--navy); display: flex; justify-content: space-between; padding: 0 14px; }
   </style>
 </head>
 <body>
@@ -993,9 +998,9 @@
   </div>
 
   <!-- Local Offline Reveal.js & KaTeX Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <script src="assets/reveal/dist/reveal.js"></script>
+  <script src="assets/katex/dist/katex.min.js"></script>
+  <script src="assets/katex/dist/contrib/auto-render.min.js"></script>
 
   <script>
     renderMathInElement(document.body, {
@@ -1018,18 +1023,15 @@
       progress: false
     });
 
-    // Authentic Beamer Madrid 3-Segment Footline with user's exact metadata
-    (function injectMadridFootlines() {
+    // Beamer default minimalist page number (bottom-right, no footline bar)
+    (function injectDefaultPageNums() {
       const slides = document.querySelectorAll('.reveal .slides > section');
       const total = slides.length;
       slides.forEach((sec, idx) => {
-        const foot = document.createElement('div');
-        foot.className = 'madrid-footline';
-        foot.innerHTML =
-          `<div class="f-left">Yiming Lu（陆一鸣） (兰州大学)</div>` +
-          `<div class="f-mid">第七章 振动和波动</div>` +
-          `<div class="f-right"><span>November, 2026</span><span>${idx + 1} / ${total}</span></div>`;
-        sec.appendChild(foot);
+        const pn = document.createElement('div');
+        pn.className = 'default-pagenum';
+        pn.textContent = `${idx + 1} / ${total}`;
+        sec.appendChild(pn);
       });
     })();
 
@@ -1788,4 +1790,3 @@
   </script>
 </body>
 </html>
-
